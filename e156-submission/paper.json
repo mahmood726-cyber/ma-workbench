@@ -2,14 +2,10 @@
   "title": "MA Workbench: A Browser-Native Meta-Analysis Suite with Optional WebR Validation Against metafor",
   "slug": "ma-workbench",
   "author": "Mahmood Ahmad",
-  "affiliation": "Tahir Heart Institute",
-  "email": "mahmood.ahmad2@nhs.net",
   "date": "2026-04-14",
-  "path": "C:\\Users\\user\\ma-workbench",
-  "type": "methods",
-  "primary_estimand": "Four-decimal-place parity of pooled estimate, SE, 95% CI, tau-squared, I-squared, and Q between browser and metafor",
-  "summary": "Fifteen single-file HTML apps covering the pairwise, network, DTA, and Bayesian meta-analysis workflow with a shared data bus and HMAC-signed validation receipts against R's metafor.",
   "body": "Can a browser-native toolkit deliver the common methods of meta-analysis with R-parity validation, eliminating package-install friction for applied reviewers? We built MA Workbench, fifteen single-file HTML apps covering PRISMA, pairwise pooling, heterogeneity, bias, DTA, and network meta-analysis. Each app implements Paule-Mandel tau-squared, Knapp-Hartung CIs, Egger regression, Moses SROC, contrast-based NMA, and HMAC-signed TruthCert receipts. A paste-once shared bus propagates studies across every app; WebR runs metafor::rma and diffs to 4 decimal places, achieving 100 percent parity, producing signed receipts via comparison. 185 tests pass across sixteen suites including a cross-module contract test and HMAC sign-verify roundtrip; Egger matches statsmodels to four significant figures. The toolkit lowers adoption cost for single-site reviewers and gives editors a verifiable bridge between browser estimates and R without data leaving the device. Network meta-regression, multi-arm tau-squared-over-two correction, hierarchical Bayesian pooling via stan, and individual-patient-data methods remain out of scope; this framework ensures high-assurance evidence synthesis for cardiology research and global health.",
+  "word_count": 156,
+  "sentence_count": 7,
   "sentences": [
     {
       "role": "Question",
@@ -50,10 +46,52 @@
     "date": "2026-04-14",
     "validation": "browser vs metafor: four-decimal-place diff; HMAC sign-verify roundtrip passes correct-key / wrong-key / tampered-body"
   },
-  "references": [
-    "Page MJ, McKenzie JE, Bossuyt PM, et al. The PRISMA 2020 statement: an updated guideline for reporting systematic reviews. BMJ. 2021;372:n71.",
-    "Moher D, Liberati A, Tetzlaff J, Altman DG. Preferred reporting items for systematic reviews and meta-analyses: the PRISMA statement. PLoS Med. 2009;6(7):e1000097.",
-    "Borenstein M, Hedges LV, Higgins JPT, Rothstein HR. Introduction to Meta-Analysis. 2nd ed. Wiley; 2021."
-  ],
-  "submitted": false
+  "type": "methods",
+  "primary_estimand": "Four-decimal-place parity of pooled estimate, SE, 95% CI, tau-squared, I-squared, and Q between browser and metafor",
+  "validation": {
+    "status": "pass",
+    "checks": [
+      {
+        "name": "single paragraph",
+        "ok": true,
+        "detail": "Body must not contain blank-line paragraph breaks."
+      },
+      {
+        "name": "sentence count",
+        "ok": true,
+        "detail": "Found 7 sentences."
+      },
+      {
+        "name": "word count",
+        "ok": true,
+        "detail": "Found 156 words."
+      },
+      {
+        "name": "no headings",
+        "ok": true,
+        "detail": "No markdown headings allowed in body."
+      },
+      {
+        "name": "no links",
+        "ok": true,
+        "detail": "No links or DOI links allowed in body."
+      },
+      {
+        "name": "result sentence has interval",
+        "ok": true,
+        "detail": "Sentence 4 should include a quantitative result such as a percentage, count, or interval."
+      },
+      {
+        "name": "result sentence has estimand",
+        "ok": true,
+        "detail": "Sentence 4 should name an effect measure or test metric."
+      },
+      {
+        "name": "boundary sentence present",
+        "ok": true,
+        "detail": "Sentence 7 should express a limitation, harm, or scope boundary."
+      }
+    ]
+  },
+  "schema": "e156-v0.2"
 }

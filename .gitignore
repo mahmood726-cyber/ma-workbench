@@ -1,5 +1,7 @@
 # Local session state
 PROGRESS.md
+STUCK_FAILURES.md
+review-findings.md
 
 # Python
 __pycache__/

@@ -1,10 +1,18 @@
 # MA Workbench
 
-**An integrated, browser-native meta-analysis suite.** Fourteen single-file
+[![test](https://github.com/mahmood726-cyber/ma-workbench/actions/workflows/test.yml/badge.svg)](https://github.com/mahmood726-cyber/ma-workbench/actions/workflows/test.yml)
+[![pages](https://img.shields.io/badge/pages-live-success)](https://mahmood726-cyber.github.io/ma-workbench/)
+[![licence](https://img.shields.io/badge/licence-MIT-informational)](./LICENSE)
+
+**An integrated, browser-native meta-analysis suite.** Fifteen single-file
 HTML tools connected by a shared data bus, with optional in-browser R
-validation against `metafor` and HMAC-signed TruthCert receipts.
+validation against `metafor` and HMAC-signed TruthCert receipts. Every
+push to `main` runs the contract tests, the golden-dataset parity tests,
+and every per-app smoke suite — see the badge above.
 
 Live demo: `https://mahmood726-cyber.github.io/ma-workbench/`
+Paper (E156): `https://mahmood726-cyber.github.io/ma-workbench/e156-submission/`
+Golden validation: `https://mahmood726-cyber.github.io/ma-workbench/golden/README.md`
 
 ## What's in the box
 

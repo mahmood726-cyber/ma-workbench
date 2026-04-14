@@ -1,0 +1,100 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contract-and-golden:
+    name: Contract tests, golden-parity, per-app smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node (for hub/projects.js resolver)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install pytest
+        run: python -m pip install --upgrade pip && pip install pytest
+
+      - name: Contract tests (bus + crypto)
+        run: pytest tests/ -v
+
+      - name: Golden-dataset parity (committed references vs fresh recompute)
+        run: pytest golden/ -v
+
+      - name: Regenerate golden references — must match committed JSON byte-for-byte
+        run: |
+          python golden/generate_references.py
+          if ! git diff --quiet golden/; then
+            echo "::error::golden/ drifted; regenerated files differ from committed." >&2
+            git --no-pager diff golden/
+            exit 1
+          fi
+          echo "Golden references regenerate byte-identically."
+
+      - name: Per-app smoke tests
+        run: |
+          set -e
+          FAILED=0
+          for d in workbench forest-plot funnel-plot heterogeneity tsa \
+                   meta-regression cumulative-subgroup bayesian-ma dta-sroc \
+                   grade-sof prisma-flow prisma-screen rob-traffic-light \
+                   webr-validator nma; do
+            echo "::group::$d"
+            if ! pytest "$d/tests" -q; then
+              echo "::error::$d tests failed"
+              FAILED=1
+            fi
+            echo "::endgroup::"
+          done
+          if [ "$FAILED" -ne 0 ]; then exit 1; fi
+
+      - name: Verify hub/projects.js paths resolve on disk
+        run: |
+          node -e '
+          const path = require("path");
+          const fs = require("fs");
+          const src = fs.readFileSync("hub/projects.js", "utf8");
+          const fn = new Function("window", src + "; return window.HTML_APPS_PROJECTS;");
+          const projects = fn({});
+          let miss = 0;
+          for (const p of projects) {
+            if (!fs.existsSync(path.resolve(".", p.path))) {
+              console.log("MISS:", p.name, "->", p.path);
+              miss++;
+            }
+          }
+          if (miss > 0) {
+            console.log("total=" + projects.length + "  miss=" + miss);
+            process.exit(1);
+          }
+          console.log("All " + projects.length + " projects.js paths resolve.");
+          '
+
+      - name: Summarise suite counts
+        if: always()
+        run: |
+          echo "### Test matrix" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Suite | Status |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---|---|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Contract (bus + crypto) | ${{ job.status }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Golden-dataset parity | ${{ job.status }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Per-app smoke (15 apps) | ${{ job.status }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Hub path resolution | ${{ job.status }} |" >> "$GITHUB_STEP_SUMMARY"
