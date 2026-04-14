@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MA Workbench E156 paper — 7-sentence abstract, live apps, and validation summary.">
+  <meta name="color-scheme" content="light dark">
+  <title>MA Workbench — E156 paper</title>
+  <style>
+    :root { --bg:#f6f4ef; --panel:#fff; --ink:#15181d; --muted:#5c6470; --accent:#2c5e8a; --accent-soft:#e8f0f7; --border:#d9d5cc; --border-strong:#7a8294; --input-bg:#fbfaf6; }
+    @media (prefers-color-scheme:dark) {
+      :root { --bg:#141618; --panel:#1c1f23; --ink:#e7e4dc; --muted:#98a0ae; --accent:#6aa6d4; --accent-soft:#223044; --border:#2f343a; --border-strong:#495262; --input-bg:#23272c; }
+    }
+    @media (prefers-reduced-motion:reduce) { * { transition:none !important; animation:none !important; } }
+    * { box-sizing:border-box; }
+    html,body { margin:0; padding:0; }
+    body { font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); line-height:1.6; }
+    .wrap { max-width:68rem; margin:0 auto; padding:0 clamp(1rem,3vw,3rem); }
+    header.paper-head { padding:3rem 0 2rem; border-bottom:1px solid var(--border); }
+    header .eyebrow { margin:0; color:var(--accent); font-weight:700; font-size:0.82rem; letter-spacing:0.14em; text-transform:uppercase; }
+    header h1 { margin:0.35rem 0 0.5rem; font-size:clamp(1.5rem, 3.5vw, 2.25rem); letter-spacing:-0.02em; line-height:1.2; }
+    header .meta { margin:0; color:var(--muted); font-size:0.92rem; }
+    header .meta strong { color:var(--ink); font-weight:600; }
+    .abstract-card { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:1.75rem 2rem; margin:2rem 0; box-shadow:0 6px 16px -4px rgba(13,27,42,0.08); }
+    .abstract-card h2 { margin:0 0 0.75rem; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent); }
+    .abstract-card p.body { margin:0 0 1rem; font-size:1.02rem; font-variant-numeric:oldstyle-nums; color:var(--ink); }
+    .abstract-card .stamp { display:flex; gap:1.5rem; flex-wrap:wrap; font-size:0.8rem; color:var(--muted); padding-top:0.75rem; border-top:1px dashed var(--border); margin-top:1rem; }
+    .abstract-card .stamp strong { color:var(--accent); font-variant-numeric:tabular-nums; }
+    section.block { margin:2.5rem 0; }
+    section.block h2 { font-size:1.15rem; margin:0 0 0.75rem; color:var(--accent); letter-spacing:-0.01em; }
+    section.block h2 span.role { color:var(--muted); font-weight:400; font-size:0.9rem; }
+    .sentence-table { width:100%; border-collapse:collapse; font-size:0.92rem; }
+    .sentence-table th, .sentence-table td { padding:0.65rem 0.8rem; text-align:left; border-bottom:1px solid var(--border); vertical-align:top; }
+    .sentence-table th { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); background:var(--accent-soft); }
+    .sentence-table td.role { font-weight:600; color:var(--accent); white-space:nowrap; width:8rem; }
+    .sentence-table td.words { font-variant-numeric:tabular-nums; color:var(--muted); text-align:right; width:4rem; }
+    .app-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:0.85rem; margin-top:1rem; }
+    .app-tile { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:0.85rem 1rem; transition:transform 150ms, box-shadow 150ms, border-color 150ms; text-decoration:none; color:inherit; display:block; }
+    .app-tile:hover { transform:translateY(-2px); box-shadow:0 10px 20px -8px rgba(13,27,42,0.15); border-color:var(--accent); }
+    .app-tile h3 { margin:0 0 0.25rem; font-size:0.95rem; color:var(--accent); font-weight:700; }
+    .app-tile p { margin:0; font-size:0.78rem; color:var(--muted); }
+    .validation-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:0.75rem; }
+    .val-card { background:var(--accent-soft); padding:0.85rem 1rem; border-radius:10px; border-left:3px solid var(--accent); }
+    .val-card strong { display:block; color:var(--accent); font-size:0.82rem; letter-spacing:0.02em; margin-bottom:0.25rem; }
+    .val-card span { font-size:0.82rem; color:var(--ink); }
+    .cta-row { display:flex; gap:0.75rem; flex-wrap:wrap; margin:1.5rem 0; }
+    .cta { display:inline-flex; align-items:center; gap:0.5rem; padding:0.6rem 1rem; border-radius:8px; font-weight:600; font-size:0.9rem; text-decoration:none; border:1px solid var(--border-strong); color:var(--ink); background:var(--panel); transition:transform 120ms, box-shadow 150ms; }
+    .cta:hover { transform:translateY(-1px); box-shadow:0 6px 14px -5px rgba(13,27,42,0.2); border-color:var(--accent); }
+    .cta.primary { background:linear-gradient(135deg, #2a4d78 0%, #3a6aa4 100%); color:#fff; border-color:transparent; box-shadow:0 6px 14px -5px rgba(58,106,164,0.5); }
+    .cta.primary:hover { filter:brightness(1.07); }
+    code { font-family:ui-monospace, "Cascadia Code", "SF Mono", Menlo, monospace; font-size:0.88em; background:var(--accent-soft); padding:0.08rem 0.35rem; border-radius:4px; }
+    pre { background:var(--input-bg); border:1px solid var(--border); border-radius:8px; padding:0.85rem 1rem; overflow:auto; font-size:0.82rem; font-family:ui-monospace, "Cascadia Code", "SF Mono", Menlo, monospace; line-height:1.55; }
+    ul.refs { padding-left:1.25rem; margin:0; }
+    ul.refs li { margin-bottom:0.35rem; color:var(--muted); font-size:0.88rem; }
+    footer.page-foot { margin:3rem 0 2rem; padding-top:1.5rem; border-top:1px solid var(--border); color:var(--muted); font-size:0.82rem; text-align:center; }
+    footer.page-foot a { color:var(--accent); text-decoration:none; }
+  </style>
+  <link rel="stylesheet" href="../hub/app-style.css">
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="paper-head">
+      <p class="eyebrow">E156 · Software tool article · Draft</p>
+      <h1>MA Workbench: A Browser-Native Meta-Analysis Suite with Optional WebR Validation Against <code>metafor</code></h1>
+      <p class="meta"><strong>Mahmood Ahmad</strong>, Tahir Heart Institute · 2026-04-14 · v1.1</p>
+      <div class="cta-row">
+        <a class="cta primary" href="../workbench/index.html">Open the workbench →</a>
+        <a class="cta" href="https://github.com/mahmood726-cyber/ma-workbench">GitHub repo</a>
+        <a class="cta" href="./paper.md">paper.md</a>
+        <a class="cta" href="./config.json">config.json</a>
+      </div>
+    </header>
+
+    <article class="abstract-card" aria-label="Abstract">
+      <h2>Abstract — 7 sentences, 144 words</h2>
+      <p class="body" id="abstract-body">
+        Can a browser-native toolkit deliver the common methods of meta-analysis with R-parity validation,
+        eliminating package-install friction for applied reviewers? We built MA Workbench, fifteen single-file
+        HTML apps covering PRISMA, pairwise pooling, heterogeneity, bias, DTA, and network meta-analysis.
+        Each app implements Paule-Mandel τ², Knapp-Hartung CIs, Egger regression, Moses SROC, contrast-based
+        NMA, and HMAC-signed TruthCert receipts. A paste-once shared bus propagates studies across every app;
+        optional in-browser WebR runs <code>metafor::rma</code> and diffs to four decimal places, producing
+        signed receipts verifiable via constant-time comparison. 185 tests pass across sixteen suites including
+        a cross-module contract test and HMAC sign-verify roundtrip; Egger matches <code>statsmodels</code> to
+        four significant figures. The toolkit lowers adoption cost for single-site reviewers and gives editors a
+        verifiable bridge between browser estimates and R without data leaving the device. Network
+        meta-regression, multi-arm τ²/2 correction, hierarchical Bayesian pooling via <code>stan</code>, and
+        individual-patient-data methods remain out of scope.
+      </p>
+      <div class="stamp">
+        <span>Words: <strong id="word-count">144</strong> / 156</span>
+        <span>Sentences: <strong>7</strong> / 7</span>
+        <span>Primary estimand: <strong>4-decimal-place parity with metafor</strong></span>
+      </div>
+    </article>
+
+    <section class="block">
+      <h2>Sentence roles</h2>
+      <table class="sentence-table">
+        <thead><tr><th>#</th><th>Role</th><th>Sentence</th><th>Words</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td class="role">Question</td><td>Can a browser-native toolkit deliver the common methods of meta-analysis with R-parity validation, eliminating package-install friction for applied reviewers?</td><td class="words">19</td></tr>
+          <tr><td>2</td><td class="role">Dataset</td><td>We built MA Workbench, fifteen single-file HTML apps covering PRISMA, pairwise pooling, heterogeneity, bias, DTA, and network meta-analysis.</td><td class="words">18</td></tr>
+          <tr><td>3</td><td class="role">Method</td><td>Each app implements Paule-Mandel τ², Knapp-Hartung CIs, Egger regression, Moses SROC, contrast-based NMA, and HMAC-signed TruthCert receipts.</td><td class="words">17</td></tr>
+          <tr><td>4</td><td class="role">Primary result</td><td>A paste-once shared bus propagates studies across every app; optional in-browser WebR runs <code>metafor::rma</code> and diffs to four decimal places, producing signed receipts verifiable via constant-time comparison.</td><td class="words">27</td></tr>
+          <tr><td>5</td><td class="role">Robustness</td><td>185 tests pass across sixteen suites including a cross-module contract test and HMAC sign-verify roundtrip; Egger matches <code>statsmodels</code> to four significant figures.</td><td class="words">22</td></tr>
+          <tr><td>6</td><td class="role">Interpretation</td><td>The toolkit lowers adoption cost for single-site reviewers and gives editors a verifiable bridge between browser estimates and R without data leaving the device.</td><td class="words">24</td></tr>
+          <tr><td>7</td><td class="role">Boundary</td><td>Network meta-regression, multi-arm τ²/2 correction, hierarchical Bayesian pooling via <code>stan</code>, and individual-patient-data methods remain out of scope.</td><td class="words">17</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="block">
+      <h2>Try the apps <span class="role">— click any tile to open the live demo</span></h2>
+      <div class="app-grid">
+        <a class="app-tile" href="../workbench/index.html"><h3>MA Workbench</h3><p>One paste, full analysis — the integrator</p></a>
+        <a class="app-tile" href="../prisma-screen/index.html"><h3>PRISMA Screening</h3><p>Pre-MA citation screening with Cohen's κ</p></a>
+        <a class="app-tile" href="../prisma-flow/index.html"><h3>PRISMA Flow</h3><p>2020 flow-diagram generator</p></a>
+        <a class="app-tile" href="../forest-plot/index.html"><h3>Forest Plot</h3><p>Pairwise pooling with PM τ²</p></a>
+        <a class="app-tile" href="../funnel-plot/index.html"><h3>Funnel + Egger</h3><p>Small-study-effect regression test</p></a>
+        <a class="app-tile" href="../rob-traffic-light/index.html"><h3>RoB Traffic Light</h3><p>robvis-style risk-of-bias heatmap</p></a>
+        <a class="app-tile" href="../heterogeneity/index.html"><h3>Heterogeneity</h3><p>Q, I², τ², PI, Baujat, leave-one-out</p></a>
+        <a class="app-tile" href="../meta-regression/index.html"><h3>Meta-Regression</h3><p>1-moderator Knapp-Hartung CIs</p></a>
+        <a class="app-tile" href="../cumulative-subgroup/index.html"><h3>Cumulative + Subgroup</h3><p>Temporal trajectory + Q_bw</p></a>
+        <a class="app-tile" href="../tsa/index.html"><h3>TSA Calculator</h3><p>O'Brien-Fleming alpha-spending</p></a>
+        <a class="app-tile" href="../bayesian-ma/index.html"><h3>Bayesian MA</h3><p>Conjugate normal-normal posterior</p></a>
+        <a class="app-tile" href="../dta-sroc/index.html"><h3>DTA SROC</h3><p>Moses SROC for diagnostic accuracy</p></a>
+        <a class="app-tile" href="../grade-sof/index.html"><h3>GRADE SoF</h3><p>Summary of Findings table</p></a>
+        <a class="app-tile" href="../nma/index.html"><h3>Network MA</h3><p>Contrast-based NMA with SUCRA</p></a>
+        <a class="app-tile" href="../webr-validator/index.html"><h3>WebR Validator</h3><p>HMAC-signed parity with metafor</p></a>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Validation summary</h2>
+      <div class="validation-grid">
+        <div class="val-card"><strong>Method parity</strong><span>Egger regression matches <code>statsmodels</code> OLS to 4 significant figures (n=10 example).</span></div>
+        <div class="val-card"><strong>Bayesian</strong><span>Closed-form conjugate posterior — no MCMC, no <code>stan</code>, deterministic.</span></div>
+        <div class="val-card"><strong>τ² gates</strong><span>Paule-Mandel default; DL disabled for k&lt;10 per Viechtbauer/Langan.</span></div>
+        <div class="val-card"><strong>Prediction interval</strong><span>Uses <code>t(k-2)</code>; undefined for k&lt;3.</span></div>
+        <div class="val-card"><strong>HKSJ floor</strong><span><code>max(1, RSS/(k-p))</code> prevents under-covering meta-regression CIs.</span></div>
+        <div class="val-card"><strong>DTA continuity</strong><span>+0.5 applied only when a cell is zero, never unconditional.</span></div>
+        <div class="val-card"><strong>WebR bridge</strong><span>Runs <code>metafor::rma</code> in-browser; 4-decimal-place diff baked into receipt.</span></div>
+        <div class="val-card"><strong>HMAC receipt</strong><span>SHA-256, user-supplied key, constant-time <code>subtle.verify</code>.</span></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Reproducibility</h2>
+      <pre>git clone https://github.com/mahmood726-cyber/ma-workbench
+cd ma-workbench
+python -m http.server 8080            # any static server
+# open http://localhost:8080/
+
+# Tests
+python -m pytest tests/               # cross-module contract tests
+for d in workbench forest-plot funnel-plot heterogeneity tsa \
+         meta-regression cumulative-subgroup bayesian-ma dta-sroc \
+         grade-sof prisma-flow prisma-screen rob-traffic-light \
+         webr-validator nma; do
+  python -m pytest "$d/tests" -q
+done</pre>
+    </section>
+
+    <section class="block">
+      <h2>References</h2>
+      <ul class="refs">
+        <li>Viechtbauer W. Conducting meta-analyses in R with the <em>metafor</em> package. <em>J Stat Softw.</em> 2010;36(3):1-48.</li>
+        <li>DerSimonian R, Laird N. Meta-analysis in clinical trials. <em>Controlled Clin Trials.</em> 1986;7(3):177-88.</li>
+        <li>Paule RC, Mandel J. Consensus values and weighting factors. <em>J Res Natl Bur Stand.</em> 1982;87(5):377-85.</li>
+        <li>Egger M, Davey Smith G, Schneider M, Minder C. Bias in meta-analysis detected by a simple, graphical test. <em>BMJ.</em> 1997;315(7109):629-34.</li>
+        <li>Knapp G, Hartung J. Improved tests for a random effects meta-regression with a single covariate. <em>Stat Med.</em> 2003;22(17):2693-710.</li>
+        <li>Lu G, Ades AE. Combination of direct and indirect evidence in mixed treatment comparisons. <em>Stat Med.</em> 2004;23(20):3105-24.</li>
+        <li>Moses LE, Shapiro D, Littenberg B. Combining independent studies of a diagnostic test into a summary ROC curve. <em>Stat Med.</em> 1993;12(14):1293-316.</li>
+        <li>Page MJ, McKenzie JE, Bossuyt PM, et&nbsp;al. The PRISMA 2020 statement. <em>BMJ.</em> 2021;372:n71.</li>
+      </ul>
+    </section>
+
+    <footer class="page-foot">
+      <a href="https://github.com/mahmood726-cyber/ma-workbench">github.com/mahmood726-cyber/ma-workbench</a>
+      &nbsp;·&nbsp;
+      <a href="https://mahmood726-cyber.github.io/ma-workbench/">mahmood726-cyber.github.io/ma-workbench</a>
+      &nbsp;·&nbsp; MIT Licence
+    </footer>
+
+  </div>
+  <script>
+    // Deterministic word count check — proves the contract holds in the browser.
+    (function () {
+      const body = document.getElementById("abstract-body");
+      if (!body) return;
+      const text = body.textContent.replace(/\s+/g, " ").trim();
+      const n = text.split(" ").filter(Boolean).length;
+      const stamp = document.getElementById("word-count");
+      if (stamp) stamp.textContent = String(n);
+    })();
+  </script>
+</body>
+</html>

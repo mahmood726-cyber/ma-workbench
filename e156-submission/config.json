@@ -1,0 +1,59 @@
+{
+  "title": "MA Workbench: A Browser-Native Meta-Analysis Suite with Optional WebR Validation Against metafor",
+  "slug": "ma-workbench",
+  "author": "Mahmood Ahmad",
+  "affiliation": "Tahir Heart Institute",
+  "email": "mahmood.ahmad2@nhs.net",
+  "date": "2026-04-14",
+  "path": "C:\\Users\\user\\ma-workbench",
+  "type": "methods",
+  "primary_estimand": "Four-decimal-place parity of pooled estimate, SE, 95% CI, tau-squared, I-squared, and Q between browser and metafor",
+  "summary": "Fifteen single-file HTML apps covering the pairwise, network, DTA, and Bayesian meta-analysis workflow with a shared data bus and HMAC-signed validation receipts against R's metafor.",
+  "body": "Can a browser-native toolkit deliver the common methods of meta-analysis with R-parity validation, eliminating package-install friction for applied reviewers? We built MA Workbench, fifteen single-file HTML apps covering PRISMA, pairwise pooling, heterogeneity, bias, DTA, and network meta-analysis. Each app implements Paule-Mandel tau-squared, Knapp-Hartung CIs, Egger regression, Moses SROC, contrast-based NMA, and HMAC-signed TruthCert receipts. A paste-once shared bus propagates studies across every app; optional in-browser WebR runs metafor::rma and diffs to four decimal places, producing signed receipts verifiable via constant-time comparison. 185 tests pass across sixteen suites including a cross-module contract test and HMAC sign-verify roundtrip; Egger matches statsmodels to four significant figures. The toolkit lowers adoption cost for single-site reviewers and gives editors a verifiable bridge between browser estimates and R without data leaving the device. Network meta-regression, multi-arm tau-squared-over-two correction, hierarchical Bayesian pooling via stan, and individual-patient-data methods remain out of scope.",
+  "sentences": [
+    {
+      "role": "Question",
+      "text": "Can a browser-native toolkit deliver the common methods of meta-analysis with R-parity validation, eliminating package-install friction for applied reviewers?"
+    },
+    {
+      "role": "Dataset",
+      "text": "We built MA Workbench, fifteen single-file HTML apps covering PRISMA, pairwise pooling, heterogeneity, bias, DTA, and network meta-analysis."
+    },
+    {
+      "role": "Method",
+      "text": "Each app implements Paule-Mandel tau-squared, Knapp-Hartung CIs, Egger regression, Moses SROC, contrast-based NMA, and HMAC-signed TruthCert receipts."
+    },
+    {
+      "role": "Primary result",
+      "text": "A paste-once shared bus propagates studies across every app; optional in-browser WebR runs metafor::rma and diffs to four decimal places, producing signed receipts verifiable via constant-time comparison."
+    },
+    {
+      "role": "Robustness",
+      "text": "185 tests pass across sixteen suites including a cross-module contract test and HMAC sign-verify roundtrip; Egger matches statsmodels to four significant figures."
+    },
+    {
+      "role": "Interpretation",
+      "text": "The toolkit lowers adoption cost for single-site reviewers and gives editors a verifiable bridge between browser estimates and R without data leaving the device."
+    },
+    {
+      "role": "Boundary",
+      "text": "Network meta-regression, multi-arm tau-squared-over-two correction, hierarchical Bayesian pooling via stan, and individual-patient-data methods remain out of scope."
+    }
+  ],
+  "notes": {
+    "app": "MA Workbench v1.1",
+    "data": "No external dataset; validation is computational — tool outputs are diffed against metafor::rma via an embedded WebR runtime",
+    "code": "https://github.com/mahmood726-cyber/ma-workbench",
+    "pages": "https://mahmood726-cyber.github.io/ma-workbench/",
+    "doi": "",
+    "version": "1.1",
+    "date": "2026-04-14",
+    "validation": "browser vs metafor: four-decimal-place diff; HMAC sign-verify roundtrip passes correct-key / wrong-key / tampered-body"
+  },
+  "references": [
+    "Page MJ, McKenzie JE, Bossuyt PM, et al. The PRISMA 2020 statement: an updated guideline for reporting systematic reviews. BMJ. 2021;372:n71.",
+    "Moher D, Liberati A, Tetzlaff J, Altman DG. Preferred reporting items for systematic reviews and meta-analyses: the PRISMA statement. PLoS Med. 2009;6(7):e1000097.",
+    "Borenstein M, Hedges LV, Higgins JPT, Rothstein HR. Introduction to Meta-Analysis. 2nd ed. Wiley; 2021."
+  ],
+  "submitted": false
+}
