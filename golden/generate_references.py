@@ -24,7 +24,6 @@ import io
 import json
 import math
 import os
-from datetime import datetime, timezone
 
 
 # ---- Estimator implementations (mirror of the JS in forest-plot/etc) ----
@@ -252,12 +251,15 @@ def main():
     os.makedirs(ds_dir, exist_ok=True)
     os.makedirs(ref_dir, exist_ok=True)
     summary = []
-    generated_at = datetime.now(timezone.utc).isoformat()
+    # Deterministic marker: git commit is authoritative for provenance,
+    # so the JSON itself carries no runtime timestamp (keeps the CI
+    # byte-for-byte regeneration check green).
+    FROZEN_MARKER = "deterministic"
     for ds in DATASETS:
         # Bus-compatible dataset payload
         bus_payload = {
             "_schema": "ma-studies-v1",
-            "_savedAt": generated_at,
+            "_savedAt": FROZEN_MARKER,
             "studies": [
                 {"label": s["label"], "est": s["est"], "se": s["se"],
                  "moderator": None, "group": None, "year": None}
@@ -282,20 +284,19 @@ def main():
             json.dump({
                 "slug": ds["slug"],
                 "title": ds["title"],
-                "generated_at": generated_at,
                 "generator": "golden/generate_references.py",
                 "tolerance": 1e-4,
                 "reference": ref,
-                "note": "Computed in Python using the same Paule-Mandel bisection and IV pooling formulas the browser apps implement in JavaScript. Browser and R outputs must match these values to within tolerance.",
+                "note": "Computed in Python using the same Paule-Mandel bisection and IV pooling formulas the browser apps implement in JavaScript. Browser and R outputs must match these values to within tolerance. Deterministic — provenance is the git commit SHA, not a timestamp.",
             }, fh, indent=2)
         summary.append({"slug": ds["slug"], "k": ref["k"],
                         "fe_mu": ref["fe"]["estimate"], "pm_mu": ref["re_pm"]["estimate"],
                         "pm_tau2": ref["re_pm"]["tau2"], "pm_i2_pct": ref["re_pm"]["i2_pct"]})
         print(f"  {ds['slug']:<28}  k={ref['k']}  FE={ref['fe']['estimate']:+.4f}  PM={ref['re_pm']['estimate']:+.4f}  tau2={ref['re_pm']['tau2']:.4f}  I2={ref['re_pm']['i2_pct']:.1f}%")
 
-    # summary index
+    # summary index — also deterministic
     with io.open(os.path.join(root, "SUMMARY.json"), "w", encoding="utf-8") as fh:
-        json.dump({"generated_at": generated_at, "datasets": summary}, fh, indent=2)
+        json.dump({"datasets": summary}, fh, indent=2)
     print(f"\nWrote {len(DATASETS)} dataset + reference pairs to golden/")
 
 

@@ -1,7 +1,6 @@
 {
   "slug": "G05-null-crossing",
   "title": "Null-crossing pooled estimate (k=7)",
-  "generated_at": "2026-04-14T21:44:58.977198+00:00",
   "generator": "golden/generate_references.py",
   "tolerance": 0.0001,
   "reference": {
@@ -27,5 +26,5 @@
       ]
     }
   },
-  "note": "Computed in Python using the same Paule-Mandel bisection and IV pooling formulas the browser apps implement in JavaScript. Browser and R outputs must match these values to within tolerance."
+  "note": "Computed in Python using the same Paule-Mandel bisection and IV pooling formulas the browser apps implement in JavaScript. Browser and R outputs must match these values to within tolerance. Deterministic \u2014 provenance is the git commit SHA, not a timestamp."
 }
