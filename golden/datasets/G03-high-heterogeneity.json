@@ -1,0 +1,94 @@
+{
+  "slug": "G03-high-heterogeneity",
+  "title": "High heterogeneity (k=10, I^2 > 80%)",
+  "description": "Large between-study variance; tau2 should be substantial and PI wide.",
+  "effect_label": "SMD",
+  "null_value": 0,
+  "bus_payload": {
+    "_schema": "ma-studies-v1",
+    "_savedAt": "2026-04-14T21:44:58.977198+00:00",
+    "studies": [
+      {
+        "label": "A",
+        "est": 0.8,
+        "se": 0.15,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "B",
+        "est": -0.2,
+        "se": 0.18,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "C",
+        "est": 1.1,
+        "se": 0.22,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "D",
+        "est": 0.1,
+        "se": 0.16,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "E",
+        "est": -0.6,
+        "se": 0.14,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "F",
+        "est": 0.95,
+        "se": 0.19,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "G",
+        "est": 0.05,
+        "se": 0.17,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "H",
+        "est": 1.25,
+        "se": 0.21,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "I",
+        "est": -0.35,
+        "se": 0.2,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "J",
+        "est": 0.4,
+        "se": 0.15,
+        "moderator": null,
+        "group": null,
+        "year": null
+      }
+    ]
+  },
+  "r_script": "# G03-high-heterogeneity \u2014 High heterogeneity (k=10, I^2 > 80%)\nlibrary(metafor)\nyi  <- c(0.800000, -0.200000, 1.100000, 0.100000, -0.600000, 0.950000, 0.050000, 1.250000, -0.350000, 0.400000)\nsei <- c(0.150000, 0.180000, 0.220000, 0.160000, 0.140000, 0.190000, 0.170000, 0.210000, 0.200000, 0.150000)\nslab <- c(\"A\", \"B\", \"C\", \"D\", \"E\", \"F\", \"G\", \"H\", \"I\", \"J\")\nfe <- rma(yi, sei = sei, method = \"FE\", slab = slab)\npm <- rma(yi, sei = sei, method = \"PM\", slab = slab)\ncat(sprintf(\n  \"fe.estimate=%.10f\\nfe.se=%.10f\\n\n   pm.estimate=%.10f\\npm.se=%.10f\\npm.tau2=%.10f\\npm.I2=%.10f\\npm.QE=%.10f\\n\",\n  as.numeric(fe$b), as.numeric(fe$se),\n  as.numeric(pm$b), as.numeric(pm$se),\n  as.numeric(pm$tau2), as.numeric(pm$I2), as.numeric(pm$QE)))"
+}

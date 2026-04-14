@@ -1,0 +1,70 @@
+{
+  "slug": "G05-null-crossing",
+  "title": "Null-crossing pooled estimate (k=7)",
+  "description": "Balanced positive + negative effects; pooled estimate near zero.",
+  "effect_label": "MD",
+  "null_value": 0,
+  "bus_payload": {
+    "_schema": "ma-studies-v1",
+    "_savedAt": "2026-04-14T21:44:58.977198+00:00",
+    "studies": [
+      {
+        "label": "P1",
+        "est": 0.3,
+        "se": 0.14,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "P2",
+        "est": -0.25,
+        "se": 0.15,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "P3",
+        "est": 0.1,
+        "se": 0.12,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "P4",
+        "est": -0.15,
+        "se": 0.13,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "P5",
+        "est": 0.05,
+        "se": 0.1,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "P6",
+        "est": 0.2,
+        "se": 0.11,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "P7",
+        "est": -0.05,
+        "se": 0.09,
+        "moderator": null,
+        "group": null,
+        "year": null
+      }
+    ]
+  },
+  "r_script": "# G05-null-crossing \u2014 Null-crossing pooled estimate (k=7)\nlibrary(metafor)\nyi  <- c(0.300000, -0.250000, 0.100000, -0.150000, 0.050000, 0.200000, -0.050000)\nsei <- c(0.140000, 0.150000, 0.120000, 0.130000, 0.100000, 0.110000, 0.090000)\nslab <- c(\"P1\", \"P2\", \"P3\", \"P4\", \"P5\", \"P6\", \"P7\")\nfe <- rma(yi, sei = sei, method = \"FE\", slab = slab)\npm <- rma(yi, sei = sei, method = \"PM\", slab = slab)\ncat(sprintf(\n  \"fe.estimate=%.10f\\nfe.se=%.10f\\n\n   pm.estimate=%.10f\\npm.se=%.10f\\npm.tau2=%.10f\\npm.I2=%.10f\\npm.QE=%.10f\\n\",\n  as.numeric(fe$b), as.numeric(fe$se),\n  as.numeric(pm$b), as.numeric(pm$se),\n  as.numeric(pm$tau2), as.numeric(pm$I2), as.numeric(pm$QE)))"
+}

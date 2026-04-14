@@ -1,0 +1,31 @@
+{
+  "slug": "G03-high-heterogeneity",
+  "title": "High heterogeneity (k=10, I^2 > 80%)",
+  "generated_at": "2026-04-14T21:44:58.977198+00:00",
+  "generator": "golden/generate_references.py",
+  "tolerance": 0.0001,
+  "reference": {
+    "k": 10,
+    "fe": {
+      "estimate": 0.2667512266,
+      "se": 0.0541947077,
+      "ci_lb": 0.1605295995,
+      "ci_ub": 0.3729728537
+    },
+    "re_pm": {
+      "estimate": 0.3430688593,
+      "se": 0.2043883608,
+      "ci_lb": -0.0575323279,
+      "ci_ub": 0.7436700464,
+      "tau2": 0.3859453157,
+      "i2_pct": 92.493806,
+      "qe": 119.9009700199,
+      "df": 9,
+      "pi_95": [
+        -1.1650620477,
+        1.8511997663
+      ]
+    }
+  },
+  "note": "Computed in Python using the same Paule-Mandel bisection and IV pooling formulas the browser apps implement in JavaScript. Browser and R outputs must match these values to within tolerance."
+}

@@ -1,0 +1,62 @@
+{
+  "slug": "G04-large-trial-dominance",
+  "title": "Large trial dominance (k=6)",
+  "description": "One very large (low-SE) trial dominates FE pooling; RE weighting is less extreme.",
+  "effect_label": "logRR",
+  "null_value": 0,
+  "bus_payload": {
+    "_schema": "ma-studies-v1",
+    "_savedAt": "2026-04-14T21:44:58.977198+00:00",
+    "studies": [
+      {
+        "label": "Small 1",
+        "est": -0.5,
+        "se": 0.3,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "Small 2",
+        "est": -0.42,
+        "se": 0.28,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "Small 3",
+        "est": -0.6,
+        "se": 0.32,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "Mid",
+        "est": -0.25,
+        "se": 0.15,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "Large 1",
+        "est": -0.12,
+        "se": 0.05,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "Large 2",
+        "est": -0.1,
+        "se": 0.04,
+        "moderator": null,
+        "group": null,
+        "year": null
+      }
+    ]
+  },
+  "r_script": "# G04-large-trial-dominance \u2014 Large trial dominance (k=6)\nlibrary(metafor)\nyi  <- c(-0.500000, -0.420000, -0.600000, -0.250000, -0.120000, -0.100000)\nsei <- c(0.300000, 0.280000, 0.320000, 0.150000, 0.050000, 0.040000)\nslab <- c(\"Small 1\", \"Small 2\", \"Small 3\", \"Mid\", \"Large 1\", \"Large 2\")\nfe <- rma(yi, sei = sei, method = \"FE\", slab = slab)\npm <- rma(yi, sei = sei, method = \"PM\", slab = slab)\ncat(sprintf(\n  \"fe.estimate=%.10f\\nfe.se=%.10f\\n\n   pm.estimate=%.10f\\npm.se=%.10f\\npm.tau2=%.10f\\npm.I2=%.10f\\npm.QE=%.10f\\n\",\n  as.numeric(fe$b), as.numeric(fe$se),\n  as.numeric(pm$b), as.numeric(pm$se),\n  as.numeric(pm$tau2), as.numeric(pm$I2), as.numeric(pm$QE)))"
+}

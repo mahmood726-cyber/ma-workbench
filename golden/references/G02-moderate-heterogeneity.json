@@ -1,0 +1,31 @@
+{
+  "slug": "G02-moderate-heterogeneity",
+  "title": "Moderate heterogeneity (k=8)",
+  "generated_at": "2026-04-14T21:44:58.977198+00:00",
+  "generator": "golden/generate_references.py",
+  "tolerance": 0.0001,
+  "reference": {
+    "k": 8,
+    "fe": {
+      "estimate": -0.2011618925,
+      "se": 0.0435658548,
+      "ci_lb": -0.286550968,
+      "ci_ub": -0.1157728171
+    },
+    "re_pm": {
+      "estimate": -0.2067529461,
+      "se": 0.0768339527,
+      "ci_lb": -0.3573474933,
+      "ci_ub": -0.0561583989,
+      "tau2": 0.0293593731,
+      "i2_pct": 62.798486,
+      "qe": 18.8164385234,
+      "df": 7,
+      "pi_95": [
+        -0.6662603857,
+        0.2527544935
+      ]
+    }
+  },
+  "note": "Computed in Python using the same Paule-Mandel bisection and IV pooling formulas the browser apps implement in JavaScript. Browser and R outputs must match these values to within tolerance."
+}

@@ -1,0 +1,31 @@
+{
+  "slug": "G05-null-crossing",
+  "title": "Null-crossing pooled estimate (k=7)",
+  "generated_at": "2026-04-14T21:44:58.977198+00:00",
+  "generator": "golden/generate_references.py",
+  "tolerance": 0.0001,
+  "reference": {
+    "k": 7,
+    "fe": {
+      "estimate": 0.033233478,
+      "se": 0.0434297553,
+      "ci_lb": -0.0518888423,
+      "ci_ub": 0.1183557984
+    },
+    "re_pm": {
+      "estimate": 0.0325225372,
+      "se": 0.0688195981,
+      "ci_lb": -0.1023638751,
+      "ci_ub": 0.1674089494,
+      "tau2": 0.0190297303,
+      "i2_pct": 52.660032,
+      "qe": 12.6742796918,
+      "df": 6,
+      "pi_95": [
+        -0.3638275074,
+        0.4288725817
+      ]
+    }
+  },
+  "note": "Computed in Python using the same Paule-Mandel bisection and IV pooling formulas the browser apps implement in JavaScript. Browser and R outputs must match these values to within tolerance."
+}

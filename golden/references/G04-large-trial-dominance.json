@@ -1,0 +1,31 @@
+{
+  "slug": "G04-large-trial-dominance",
+  "title": "Large trial dominance (k=6)",
+  "generated_at": "2026-04-14T21:44:58.977198+00:00",
+  "generator": "golden/generate_references.py",
+  "tolerance": 0.0001,
+  "reference": {
+    "k": 6,
+    "fe": {
+      "estimate": -0.1254520532,
+      "se": 0.030109062,
+      "ci_lb": -0.1844658148,
+      "ci_ub": -0.0664382916
+    },
+    "re_pm": {
+      "estimate": -0.1551802848,
+      "se": 0.0508384738,
+      "ci_lb": -0.2548236935,
+      "ci_ub": -0.0555368761,
+      "tau2": 0.0042811987,
+      "i2_pct": 16.258089,
+      "qe": 5.9707259242,
+      "df": 5,
+      "pi_95": [
+        -0.3851991337,
+        0.074838564
+      ]
+    }
+  },
+  "note": "Computed in Python using the same Paule-Mandel bisection and IV pooling formulas the browser apps implement in JavaScript. Browser and R outputs must match these values to within tolerance."
+}

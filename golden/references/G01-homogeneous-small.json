@@ -1,0 +1,31 @@
+{
+  "slug": "G01-homogeneous-small",
+  "title": "Homogeneous small MA (k=5, tau2 expected = 0)",
+  "generated_at": "2026-04-14T21:44:58.977198+00:00",
+  "generator": "golden/generate_references.py",
+  "tolerance": 0.0001,
+  "reference": {
+    "k": 5,
+    "fe": {
+      "estimate": -0.1979139195,
+      "se": 0.0479619087,
+      "ci_lb": -0.2919192606,
+      "ci_ub": -0.1039085785
+    },
+    "re_pm": {
+      "estimate": -0.1979139195,
+      "se": 0.0479619087,
+      "ci_lb": -0.2919192606,
+      "ci_ub": -0.1039085785,
+      "tau2": 0.0,
+      "i2_pct": 0.0,
+      "qe": 0.0772066941,
+      "df": 4,
+      "pi_95": [
+        -0.350528713,
+        -0.045299126
+      ]
+    }
+  },
+  "note": "Computed in Python using the same Paule-Mandel bisection and IV pooling formulas the browser apps implement in JavaScript. Browser and R outputs must match these values to within tolerance."
+}
