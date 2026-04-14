@@ -577,7 +577,7 @@ Study C, 0.05, 0.18"></textarea>
       document.getElementById("btn-bus-save").addEventListener("click", onBusSave);
       document.getElementById("btn-validate-webr").addEventListener("click", function () {
         onBusSave();  // write current studies to the shared bus first
-        window.open("../webr-validator/index.html", "_blank");
+        window.open("../webr-validator/index.html?fromBus=1", "_blank");
       });
       document.getElementById("btn-import").addEventListener("click", function () {
         document.getElementById("file-import").click();

@@ -651,6 +651,22 @@
     if (!loaded) { document.getElementById("f-data").value = EXAMPLE; }
     attach();
     render();
+
+    // ---- ?fromBus=1 auto-pull on deep-link from another app ----
+    (function maybeAutoLoadBus() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("fromBus") === "1") {
+          const raw = localStorage.getItem(BUS_KEY);
+          if (!raw) return;
+          const p = JSON.parse(raw);
+          if (!p || p._schema !== "ma-studies-v1" || !Array.isArray(p.studies)) return;
+          const lines = p.studies.map(s => [s.label, s.est, s.se].join(", "));
+          document.getElementById("f-data").value = lines.join("\n");
+          render();
+        }
+      } catch (e) { /* silent — noisy alert on deep-link is worse than no-op */ }
+    })();
   })();
   </script>
 </body>

@@ -143,6 +143,17 @@ window.HTML_APPS_PROJECTS = [
     tags: ["grade", "sof", "certainty-of-evidence"]
   },
   {
+    name: "Network Meta-Analysis",
+    folder: "nma",
+    path: "./nma/index.html",
+    collection: "new",
+    mode: "file",
+    category: "Evidence Synthesis",
+    summary: "Contrast-based frequentist NMA: connectivity check, network graph, WLS pooling, SUCRA via 10k MC samples, league table, CSV export.",
+    note: "Fixed-effect and DL random-effects; multi-arm \u03c4\u00b2/2 correction off in v1.",
+    tags: ["nma", "network", "league", "sucra"]
+  },
+  {
     name: "WebR Validator",
     folder: "webr-validator",
     path: "./webr-validator/index.html",
@@ -150,7 +161,7 @@ window.HTML_APPS_PROJECTS = [
     mode: "file",
     category: "Validation",
     summary: "Optional in-browser R (WebR) validation against metafor. Alternative paste-back path for local R. HMAC-SHA256 signed TruthCert receipts.",
-    note: "WebR loads on explicit click (~30 MB). Signing key never stored. Constant-time verify.",
+    note: "WebR loads on explicit click (~30 MB). Signing key never stored. Constant-time verify. Accepts ?fromBus=1 for deep-link auto-load.",
     tags: ["webr", "validation", "truthcert", "hmac"]
   }
 ];
