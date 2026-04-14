@@ -1,0 +1,18 @@
+# Local session state
+PROGRESS.md
+
+# Python
+__pycache__/
+.pytest_cache/
+.pytest_tmp/
+*.pyc
+
+# Backups / archives
+_archive/
+*.bak
+*.backup-*
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
