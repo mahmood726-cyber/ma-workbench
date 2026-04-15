@@ -55,7 +55,7 @@ jobs:
           for d in workbench forest-plot funnel-plot heterogeneity tsa \
                    meta-regression cumulative-subgroup bayesian-ma dta-sroc \
                    grade-sof prisma-flow prisma-screen rob-traffic-light \
-                   webr-validator nma sglt2i-hfpef-demo; do
+                   webr-validator nma sglt2i-hfpef-demo precision-sweep-demo; do
             echo "::group::$d"
             if ! pytest "$d/tests" -q; then
               echo "::error::$d tests failed"
