@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "trials": [
+    {
+      "id": "EMPEROR-Preserved",
+      "hr": 0.79,
+      "ci_low": 0.69,
+      "ci_high": 0.90,
+      "n_total": 5988,
+      "n_events_total": null,
+      "log_hr": -0.2357,
+      "se_log_hr": 0.0678,
+      "source": {
+        "citation": "Anker SD et al. NEJM 2021;385:1451-61",
+        "doi": "10.1056/NEJMoa2107038",
+        "table": "Table 2, row 'Primary composite outcome'",
+        "page": 1455,
+        "accessed": "2026-04-15"
+      }
+    },
+    {
+      "id": "DELIVER",
+      "hr": 0.82,
+      "ci_low": 0.73,
+      "ci_high": 0.92,
+      "n_total": 6263,
+      "n_events_total": null,
+      "log_hr": -0.1985,
+      "se_log_hr": 0.0590,
+      "source": {
+        "citation": "Solomon SD et al. NEJM 2022;387:1089-98",
+        "doi": "10.1056/NEJMoa2206286",
+        "table": "Table 2, row 'Primary composite outcome'",
+        "page": 1092,
+        "accessed": "2026-04-15"
+      }
+    }
+  ]
+}
