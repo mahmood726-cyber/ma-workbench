@@ -202,5 +202,53 @@
     }
   })();
   </script>
+
+  <script>
+  (function () {
+    function poolInverseVariance(studies) {
+      // At k=2 with tau2=0, REML == PM == FE on the point estimate.
+      // Variances differ at higher k; we surface all four methods in
+      // the method-comparison panel.
+      let sw = 0, swy = 0, sw2 = 0;
+      for (const s of studies) {
+        const w = 1 / (s.se * s.se);
+        sw += w; sw2 += w*w; swy += w * s.est;
+      }
+      const mu = swy / sw;
+      const se = Math.sqrt(1 / sw);
+      return { mu, se };
+    }
+
+    function updateVerdict() {
+      const ctx = window.__SGLT2I;
+      if (!ctx) return;
+      const studies = ctx.data.trials.map(t => ({
+        label: t.id, est: t.log_hr, se: t.se_log_hr,
+      }));
+      const { mu, se } = poolInverseVariance(studies);
+      const hr = Math.exp(mu);
+      const lo = Math.exp(mu - 1.96 * se);
+      const hi = Math.exp(mu + 1.96 * se);
+      const bench = ctx.expected.benchmark;
+      const delta = Math.abs(hr - bench.hr);
+      const tol = ctx.expected.tolerance.applied_delta;
+      const ciOverlap =
+        Math.max(lo, bench.ci_low) <= Math.min(hi, bench.ci_high);
+      const pass = delta <= tol && ciOverlap;
+
+      document.getElementById("our-hr").textContent =
+        hr.toFixed(2) + " (95% CI " + lo.toFixed(2) + "–" + hi.toFixed(2) + ")";
+      document.getElementById("delta").textContent = delta.toFixed(3);
+      const verdict = document.getElementById("verdict");
+      verdict.textContent = pass ? "PASS" : "FAIL";
+      verdict.className = "badge " + (pass ? "pass" : "fail");
+
+      ctx.pool = { hr, lo, hi, mu, se, delta, tol, pass, ciOverlap };
+      document.dispatchEvent(new CustomEvent("sglt2i:pool-ready"));
+    }
+
+    document.addEventListener("sglt2i:inputs-ready", updateVerdict);
+  })();
+  </script>
 </body>
 </html>
