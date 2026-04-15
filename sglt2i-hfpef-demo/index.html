@@ -145,11 +145,62 @@
   </section>
 
   <script>
-    // Orchestrator loads in Task 8. Scaffold only — no logic here yet.
-    (function () {
-      document.getElementById("build-sha").textContent =
-        "build " + (document.documentElement.dataset.buildSha || "(dev)");
-    })();
+  (async function () {
+    function setText(id, v) { document.getElementById(id).textContent = v; }
+    function renderError(msg) {
+      document.getElementById("claim-card").innerHTML =
+        '<p class="error">Cannot render: ' + msg + '</p>';
+    }
+    try {
+      const [data, expected] = await Promise.all([
+        fetch("data.json").then(r => r.json()),
+        fetch("expected.json").then(r => r.json()),
+      ]);
+
+      // Fail-closed validation
+      if (!data.trials || data.trials.length !== 2) {
+        return renderError("data.json missing or malformed (need 2 trials)");
+      }
+      if (!expected.benchmark || !expected.tolerance) {
+        return renderError("expected.json missing benchmark/tolerance block");
+      }
+      for (const t of data.trials) {
+        for (const k of ["citation","doi","table","page","accessed"]) {
+          if (!t.source || !t.source[k]) {
+            return renderError("data.json " + t.id + ".source." + k + " empty");
+          }
+        }
+      }
+
+      // Store for panels wired in later tasks
+      window.__SGLT2I = { data, expected };
+
+      // Benchmark HR display
+      const b = expected.benchmark;
+      setText("bench-hr",
+        b.hr.toFixed(2) + " (95% CI " + b.ci_low + "–" + b.ci_high + ")"
+      );
+      setText("delta-tol", expected.tolerance.applied_delta.toFixed(3));
+      setText("our-hr", "computing…");
+      setText("delta", "—");
+
+      // Provenance panel
+      const prov = document.getElementById("provenance-body");
+      prov.innerHTML = data.trials.map(t =>
+        '<p><strong>' + t.id + ':</strong> ' + t.source.citation +
+        ', ' + t.source.table + ', p' + t.source.page +
+        '<br><small>DOI ' + t.source.doi +
+        ' · accessed ' + t.source.accessed + '</small></p>'
+      ).join("") + '<p><strong>Benchmark:</strong> ' + b.source +
+        '<br><small>DOI ' + b.doi +
+        ' · pool type ' + b.pool_type + '</small></p>';
+
+      // Emit a ready event so later panels can orchestrate
+      document.dispatchEvent(new CustomEvent("sglt2i:inputs-ready"));
+    } catch (e) {
+      renderError((e && e.message) || String(e));
+    }
+  })();
   </script>
 </body>
 </html>
