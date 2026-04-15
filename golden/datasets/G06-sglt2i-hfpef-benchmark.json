@@ -14,17 +14,17 @@
         "se": 0.0678,
         "moderator": null,
         "group": null,
-        "year": 2021
+        "year": null
       },
       {
         "label": "DELIVER",
         "est": -0.1985,
-        "se": 0.0590,
+        "se": 0.059,
         "moderator": null,
         "group": null,
-        "year": 2022
+        "year": null
       }
     ]
   },
-  "r_script": "# G06-sglt2i-hfpef-benchmark \u2014 SGLT2i in HFpEF: EMPEROR-Preserved + DELIVER\nlibrary(metafor)\nyi  <- c(-0.2357, -0.1985)\nsei <- c(0.0678, 0.0590)\nslab <- c(\"EMPEROR-Preserved\", \"DELIVER\")\nfe <- rma(yi, sei = sei, method = \"FE\", slab = slab)\npm <- rma(yi, sei = sei, method = \"PM\", slab = slab)\ncat(sprintf(\n  \"fe.estimate=%.10f\\nfe.se=%.10f\\npm.estimate=%.10f\\npm.se=%.10f\\npm.tau2=%.10f\\npm.I2=%.10f\\npm.QE=%.10f\\n\",\n  as.numeric(fe$b), as.numeric(fe$se),\n  as.numeric(pm$b), as.numeric(pm$se),\n  as.numeric(pm$tau2), as.numeric(pm$I2), as.numeric(pm$QE)))"
+  "r_script": "# G06-sglt2i-hfpef-benchmark \u2014 SGLT2i in HFpEF: EMPEROR-Preserved + DELIVER primary composite pool (k=2)\nlibrary(metafor)\nyi  <- c(-0.235700, -0.198500)\nsei <- c(0.067800, 0.059000)\nslab <- c(\"EMPEROR-Preserved\", \"DELIVER\")\nfe <- rma(yi, sei = sei, method = \"FE\", slab = slab)\npm <- rma(yi, sei = sei, method = \"PM\", slab = slab)\ncat(sprintf(\n  \"fe.estimate=%.10f\\nfe.se=%.10f\\n\n   pm.estimate=%.10f\\npm.se=%.10f\\npm.tau2=%.10f\\npm.I2=%.10f\\npm.QE=%.10f\\n\",\n  as.numeric(fe$b), as.numeric(fe$se),\n  as.numeric(pm$b), as.numeric(pm$se),\n  as.numeric(pm$tau2), as.numeric(pm$I2), as.numeric(pm$QE)))"
 }
