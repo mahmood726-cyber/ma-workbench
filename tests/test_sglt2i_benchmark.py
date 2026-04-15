@@ -59,14 +59,16 @@ def test_ci_overlaps_published():
     )
 
 
-def test_methods_agree():
-    """Absolute HR range across FE, REML, PM, HKSJ-floored must be <= 0.03.
+def test_fe_pm_hr_range_k2():
+    """Absolute HR range between FE and PM point estimates must be <= 0.03.
 
-    The golden reference gives FE and PM (== REML for this data since
-    tau2=0). HKSJ-floored and the PM estimator are identical at
-    tau2=0 on the point estimate (they differ only in the SE/CI
-    calculation). So at k=2 with homogeneity, the absolute HR range
-    reduces to |exp(fe) - exp(pm)| which must be <= 0.03.
+    The spec's four-estimator range (FE, REML, PM, HKSJ-floored) collapses
+    to |exp(fe) - exp(pm)| at k=2 tau2=0 because REML==PM==FE point-estimate
+    and HKSJ only modifies the CI, not the point. This test asserts the
+    collapsed form; the full four-estimator range is re-asserted in the
+    browser-driven integration test once sglt2i-hfpef-demo/index.html wires
+    up the method-comparison panel (Bundle B). A regression in HKSJ SE
+    or the floor rule would be caught there, not here.
     """
     ref = load_json(G06_REF)
     hrs = [
@@ -74,7 +76,7 @@ def test_methods_agree():
         math.exp(ref["reference"]["re_pm"]["estimate"]),
     ]
     assert max(hrs) - min(hrs) <= 0.03, (
-        f"method HR range {max(hrs) - min(hrs):.4f} exceeds 0.03"
+        f"FE/PM HR range {max(hrs) - min(hrs):.4f} exceeds 0.03"
     )
 
 
@@ -94,6 +96,7 @@ def test_dl_excluded_in_demo_page():
 def test_undefined_panels_reasons_present():
     """Four greyed cards must each emit the expected reason string verbatim."""
     html = Path("sglt2i-hfpef-demo/index.html")
+    assert html.exists(), f"{html} missing"
     text = html.read_text(encoding="utf-8")
     reasons = {
         "prediction-interval": "undefined at k<3",

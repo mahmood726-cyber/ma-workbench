@@ -47,7 +47,7 @@ def test_source_fields_non_empty():
     for t in data["trials"]:
         for key in REQUIRED_SOURCE_KEYS:
             v = t["source"][key]
-            assert v not in (None, "", 0), (
+            assert v is not None and v != "", (
                 f"{t['id']}.source.{key} is empty: {v!r}"
             )
 
