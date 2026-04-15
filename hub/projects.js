@@ -163,5 +163,16 @@ window.HTML_APPS_PROJECTS = [
     summary: "Optional in-browser R (WebR) validation against metafor. Alternative paste-back path for local R. HMAC-SHA256 signed TruthCert receipts.",
     note: "WebR loads on explicit click (~30 MB). Signing key never stored. Constant-time verify. Accepts ?fromBus=1 for deep-link auto-load.",
     tags: ["webr", "validation", "truthcert", "hmac"]
+  },
+  {
+    name: "SGLT2i in HFpEF Demo",
+    folder: "sglt2i-hfpef-demo",
+    path: "./sglt2i-hfpef-demo/index.html",
+    collection: "new",
+    mode: "file",
+    category: "Clinical Demo",
+    summary: "Real-trial benchmark: pools EMPEROR-Preserved and DELIVER on the HFpEF primary composite, compared against the Vaduganathan 2022 Lancet pool. Reproduces the workbench output side-by-side with the published HR.",
+    note: "Read-only. Embeds forest-plot and heterogeneity via ?fromBus=1. Adaptive delta tolerance (0.005 aggregate / 0.02 IPD) frozen in protocol.md before compute.",
+    tags: ["clinical", "sglt2i", "hfpef", "benchmark", "demo"]
   }
 ];
