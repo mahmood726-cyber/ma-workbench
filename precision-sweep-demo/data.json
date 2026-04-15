@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "seed": 20260415,
+  "generator": "xoshiro128**",
+  "n_replications": 10000,
+  "true_hr_range": [0.6, 1.3],
+  "se_range": [0.04, 0.08],
+  "dp_levels": [1, 2, 3, 4],
+  "pool_method": "fixed-effects inverse-variance on log-HR scale",
+  "comment": "Fixed-effects pool at tau2=0. 2-trial structure (k=2). SE drawn uniformly to match typical HFpEF-scale trials."
+}
