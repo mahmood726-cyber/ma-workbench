@@ -1,7 +1,11 @@
 # Local session state
 PROGRESS.md
 STUCK_FAILURES.md
+STUCK_FAILURES.jsonl
 review-findings.md
+review-findings.jsonl
+sentinel-findings.md
+sentinel-findings.jsonl
 
 # Python
 __pycache__/
