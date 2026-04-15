@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Precision-sweep &mdash; ma-workbench E156 demo</title>
+<style>
+  :root { --fg:#1a1a1a; --muted:#6b6b6b; --bg:#fff; --accent:#0b5394;
+          --rule:#d8d8d8; --bar:#0b5394; --bar95:#88aacf; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:15px/1.5 system-ui, -apple-system, sans-serif;
+         color:var(--fg); background:var(--bg); max-width:860px;
+         padding:1.25rem; margin-inline:auto; }
+  header { display:flex; justify-content:space-between; align-items:baseline;
+           border-bottom:1px solid var(--rule); padding-bottom:.5rem;
+           margin-bottom:1rem; }
+  header h1 { margin:0; font-size:1.15rem; }
+  header small { color:var(--muted); }
+  section { margin:1.5rem 0; }
+  h2 { font-size:1rem; margin:0 0 .5rem; }
+  .claim { background:#f7f9fc; border:1px solid var(--rule);
+           border-radius:6px; padding:1rem; }
+  table { width:100%; border-collapse:collapse; font-size:.92rem; }
+  th, td { text-align:left; padding:.4rem .6rem;
+           border-bottom:1px solid var(--rule); }
+  svg.floor { width:100%; height:260px; }
+  .bar { fill:var(--bar); }
+  .bar95 { fill:var(--bar95); }
+  .axis { stroke:var(--muted); }
+  details summary { cursor:pointer; color:var(--accent); }
+  .error { color:#b42318; font-weight:600; }
+  .match-ok { color:#0a8a3a; font-weight:600; }
+  .match-fail { color:#b42318; font-weight:600; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>Precision floor <small>&mdash; ma-workbench E156 demo</small></h1>
+    <small><a href="../hub/">&larr; hub</a> &middot; <span id="build-sha">build dev</span></small>
+  </header>
+
+  <section class="claim" id="claim-card">
+    <h2>Claim</h2>
+    <p>At dp=<span id="claim-dp">2</span>, median |&Delta;| = <span id="claim-median">&hellip;</span>, 95th %ile = <span id="claim-p95">&hellip;</span>, <span id="claim-frac">&hellip;</span> of pools exceed &delta;=0.005.</p>
+    <p><small>Client-side MC vs committed G07 reference: <span id="claim-match">checking&hellip;</span></small></p>
+  </section>
+
+  <section>
+    <h2>Precision floor (median and 95th %ile |&Delta;| per dp)</h2>
+    <svg class="floor" id="floor-svg" viewBox="0 0 560 240" aria-label="Bar chart of |delta| floor per decimal precision"></svg>
+  </section>
+
+  <section>
+    <h2>Pass-rate table</h2>
+    <table id="pass-table">
+      <thead>
+        <tr><th>dp</th><th>median</th><th>p95</th><th>max</th>
+            <th>&gt; 0.001</th><th>&gt; 0.005</th>
+            <th>&gt; 0.01</th><th>&gt; 0.02</th></tr>
+      </thead>
+      <tbody><tr><td colspan="8">loading&hellip;</td></tr></tbody>
+    </table>
+  </section>
+
+  <details>
+    <summary>Methodology</summary>
+    <p>Seed: 20260415 (xoshiro128**). N=10,000 replications. True log-HR &sim; Uniform(log 0.6, log 1.3). Per-trial SE &sim; Uniform(0.04, 0.08). Fixed-effects inverse-variance pool on log-HR scale. At each dp, both HR and 95% CI bounds are rounded; SE is re-derived from the rounded CI &mdash; matches real-paper extraction.</p>
+  </details>
+
+  <section>
+    <h2>Predecessor</h2>
+    <p>This paper follows <a href="../sglt2i-hfpef-demo/">SGLT2i-HFpEF demo (FAIL)</a>. The prior |&Delta;|=0.007 at dp=2 lies between p95 (0.0044) and max (0.0084) of the envelope measured here &mdash; precision-bound, not an implementation defect.</p>
+  </section>
+
+  <script src="xoshiro.js"></script>
+  <script src="simulate.js"></script>
+  <script>
+  (async function () {
+    function setText(id, v) { document.getElementById(id).textContent = v; }
+    function err(msg) {
+      document.getElementById("claim-card").innerHTML =
+        '<p class="error">Cannot render: ' + msg + '</p>';
+    }
+    try {
+      const [data, ref] = await Promise.all([
+        fetch("data.json").then(r => r.json()),
+        fetch("../golden/references/G07-precision-sweep.json").then(r => r.json()),
+      ]);
+
+      // Client-side MC
+      const per = window.precisionSweepSimulate({
+        seed: data.seed,
+        n_replications: data.n_replications,
+        true_hr_range: data.true_hr_range,
+        se_range: data.se_range,
+        dp_levels: data.dp_levels,
+      });
+
+      // Cross-check vs committed reference (1e-4 on median)
+      const refPer = ref.reference.per_dp;
+      const tol = 1e-4;
+      let match = true;
+      const diffs = [];
+      for (const dp of data.dp_levels) {
+        const mRef = refPer[dp].median;
+        const mBr = per[dp].median;
+        const d = Math.abs(mRef - mBr);
+        diffs.push({dp: dp, ref: mRef, browser: mBr, diff: d});
+        if (d > tol) match = false;
+      }
+      const matchEl = document.getElementById("claim-match");
+      if (match) {
+        matchEl.className = "match-ok";
+        matchEl.textContent = "\u2713 match within 1e-4";
+      } else {
+        matchEl.className = "match-fail";
+        matchEl.textContent = "divergence: " + diffs.filter(d => d.diff > tol)
+          .map(d => "dp=" + d.dp + " \u0394=" + d.diff.toExponential(2)).join(", ");
+      }
+
+      // Claim card
+      const p2 = per[2];
+      setText("claim-median", p2.median.toFixed(4));
+      setText("claim-p95", p2.p95.toFixed(4));
+      setText("claim-frac", (p2.frac_gt_0p005 * 100).toFixed(1) + "%");
+
+      // Pass-rate table
+      const tbody = document.querySelector("#pass-table tbody");
+      tbody.innerHTML = data.dp_levels.map(function (dp) {
+        const s = per[dp];
+        return "<tr><td>" + dp + "</td>" +
+          "<td>" + s.median.toFixed(4) + "</td>" +
+          "<td>" + s.p95.toFixed(4) + "</td>" +
+          "<td>" + s.max.toFixed(4) + "</td>" +
+          "<td>" + (s.frac_gt_0p001*100).toFixed(1) + "%</td>" +
+          "<td>" + (s.frac_gt_0p005*100).toFixed(1) + "%</td>" +
+          "<td>" + (s.frac_gt_0p01*100).toFixed(1) + "%</td>" +
+          "<td>" + (s.frac_gt_0p02*100).toFixed(1) + "%</td></tr>";
+      }).join("");
+
+      // Bar chart
+      const svg = document.getElementById("floor-svg");
+      const w = 560, h = 240, pad = 40;
+      const dps = data.dp_levels;
+      const maxVal = Math.max.apply(null, dps.map(function (dp) { return per[dp].p95; }));
+      const barW = (w - 2*pad) / dps.length / 2.5;
+      let svgInner = "";
+      dps.forEach(function (dp, i) {
+        const xMid = pad + (i + 0.5) * (w - 2*pad) / dps.length;
+        const hm = (per[dp].median / maxVal) * (h - 2*pad);
+        const hp = (per[dp].p95 / maxVal) * (h - 2*pad);
+        svgInner += '<rect class="bar" x="' + (xMid - barW*1.1) + '" y="' + (h - pad - hm) + '" width="' + barW + '" height="' + hm + '"></rect>';
+        svgInner += '<rect class="bar95" x="' + (xMid + 0.1*barW) + '" y="' + (h - pad - hp) + '" width="' + barW + '" height="' + hp + '"></rect>';
+        svgInner += '<text x="' + xMid + '" y="' + (h - pad + 15) + '" text-anchor="middle" fill="#333">dp=' + dp + '</text>';
+      });
+      svgInner += '<line class="axis" x1="' + pad + '" y1="' + (h-pad) + '" x2="' + (w-pad) + '" y2="' + (h-pad) + '"/>';
+      svgInner += '<text x="' + pad + '" y="' + (pad - 8) + '" fill="#333"><tspan fill="#0b5394">&#9632;</tspan> median   <tspan fill="#88aacf">&#9632;</tspan> 95th %ile</text>';
+      svg.innerHTML = svgInner;
+    } catch (e) {
+      err((e && e.message) || String(e));
+    }
+  })();
+  </script>
+</body>
+</html>

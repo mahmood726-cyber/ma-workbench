@@ -1,0 +1,129 @@
+{
+  "slug": "G07-precision-sweep",
+  "title": "Aggregate-data reproduction precision floor: 10k MC 2-trial pools",
+  "generator": "golden/generate_references.py via precision_sweep.simulate",
+  "tolerance": 1e-06,
+  "reference": {
+    "per_dp": {
+      "1": {
+        "median": 0.01789,
+        "p95": 0.046927,
+        "max": 0.106769,
+        "frac_gt_0p001": 0.971,
+        "frac_gt_0p005": 0.8468,
+        "frac_gt_0p01": 0.7042,
+        "frac_gt_0p02": 0.4504
+      },
+      "2": {
+        "median": 0.001649,
+        "p95": 0.00442,
+        "max": 0.008439,
+        "frac_gt_0p001": 0.6807,
+        "frac_gt_0p005": 0.0241,
+        "frac_gt_0p01": 0.0,
+        "frac_gt_0p02": 0.0
+      },
+      "3": {
+        "median": 0.000169,
+        "p95": 0.000448,
+        "max": 0.000948,
+        "frac_gt_0p001": 0.0,
+        "frac_gt_0p005": 0.0,
+        "frac_gt_0p01": 0.0,
+        "frac_gt_0p02": 0.0
+      },
+      "4": {
+        "median": 1.7e-05,
+        "p95": 4.4e-05,
+        "max": 0.000108,
+        "frac_gt_0p001": 0.0,
+        "frac_gt_0p005": 0.0,
+        "frac_gt_0p01": 0.0,
+        "frac_gt_0p02": 0.0
+      }
+    },
+    "audit_first_10": [
+      {
+        "true_log_hr": 0.125487,
+        "hr_1": 1.001477,
+        "hr_2": 1.04668,
+        "se_1": 0.073864,
+        "se_2": 0.05363,
+        "true_pool_hr": 1.03085
+      },
+      {
+        "true_log_hr": -0.217914,
+        "hr_1": 0.792775,
+        "hr_2": 0.811663,
+        "se_1": 0.051914,
+        "se_2": 0.062323,
+        "true_pool_hr": 0.800458
+      },
+      {
+        "true_log_hr": -0.305629,
+        "hr_1": 0.706111,
+        "hr_2": 0.684122,
+        "se_1": 0.047184,
+        "se_2": 0.044542,
+        "true_pool_hr": 0.694397
+      },
+      {
+        "true_log_hr": -0.084061,
+        "hr_1": 0.917176,
+        "hr_2": 1.016228,
+        "se_1": 0.043138,
+        "se_2": 0.074933,
+        "true_pool_hr": 0.940891
+      },
+      {
+        "true_log_hr": -0.412151,
+        "hr_1": 0.665242,
+        "hr_2": 0.613972,
+        "se_1": 0.06778,
+        "se_2": 0.051369,
+        "true_pool_hr": 0.632202
+      },
+      {
+        "true_log_hr": -0.274198,
+        "hr_1": 0.656349,
+        "hr_2": 0.759297,
+        "se_1": 0.068005,
+        "se_2": 0.054498,
+        "true_pool_hr": 0.717243
+      },
+      {
+        "true_log_hr": -0.068902,
+        "hr_1": 0.934598,
+        "hr_2": 0.939191,
+        "se_1": 0.069883,
+        "se_2": 0.076612,
+        "true_pool_hr": 0.936681
+      },
+      {
+        "true_log_hr": 0.232116,
+        "hr_1": 1.20348,
+        "hr_2": 1.229969,
+        "se_1": 0.055798,
+        "se_2": 0.043651,
+        "true_pool_hr": 1.219845
+      },
+      {
+        "true_log_hr": -0.018022,
+        "hr_1": 1.047218,
+        "hr_2": 0.928525,
+        "se_1": 0.067174,
+        "se_2": 0.074753,
+        "true_pool_hr": 0.992424
+      },
+      {
+        "true_log_hr": 0.18296,
+        "hr_1": 1.274791,
+        "hr_2": 1.068698,
+        "se_1": 0.071535,
+        "se_2": 0.071985,
+        "true_pool_hr": 1.167851
+      }
+    ]
+  },
+  "note": "Monte Carlo reference. Seed + generator + N + ranges + dp_levels are frozen in the dataset file. Browser client-side MC must match these values to within 1e-4 on median (per-dp)."
+}

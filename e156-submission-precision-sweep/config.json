@@ -1,0 +1,11 @@
+{
+  "paper_id": "E156-precision-sweep",
+  "format": "E156",
+  "word_budget": 156,
+  "sentence_budget": 7,
+  "target_words_per_sentence": {
+    "S1": 22, "S2": 20, "S3": 20, "S4": 30,
+    "S5": 22, "S6": 22, "S7": 20
+  },
+  "title": "Precision floor for aggregate-data reproduction of fixed-effects 2-trial pools"
+}

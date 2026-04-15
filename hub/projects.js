@@ -174,5 +174,16 @@ window.HTML_APPS_PROJECTS = [
     summary: "Real-trial benchmark: pools EMPEROR-Preserved and DELIVER on the HFpEF primary composite, compared against the Vaduganathan 2022 Lancet pool. Reproduces the workbench output side-by-side with the published HR.",
     note: "Read-only. Embeds forest-plot and heterogeneity via ?fromBus=1. Adaptive delta tolerance (0.005 aggregate / 0.02 IPD) frozen in protocol.md before compute.",
     tags: ["clinical", "sglt2i", "hfpef", "benchmark", "demo"]
+  },
+  {
+    name: "Precision Sweep Demo",
+    folder: "precision-sweep-demo",
+    path: "./precision-sweep-demo/index.html",
+    collection: "new",
+    mode: "file",
+    category: "Clinical Demo",
+    summary: "Monte Carlo characterisation of the aggregate-data reproduction precision floor (10k synthetic 2-trial pools at dp in {1,2,3,4}). Follow-up paper quantifying why the SGLT2i FAIL was precision-bound, not a defect.",
+    note: "Browser re-runs the MC client-side via xoshiro128** and cross-checks against the committed G07 reference to 1e-4. Offline, no CDN, no localStorage.",
+    tags: ["methods", "precision", "monte-carlo", "e156", "demo"]
   }
 ];

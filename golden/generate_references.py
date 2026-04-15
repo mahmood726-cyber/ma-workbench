@@ -305,10 +305,72 @@ def main():
                         "pm_tau2": ref["re_pm"]["tau2"], "pm_i2_pct": ref["re_pm"]["i2_pct"]})
         print(f"  {ds['slug']:<28}  k={ref['k']}  FE={ref['fe']['estimate']:+.4f}  PM={ref['re_pm']['estimate']:+.4f}  tau2={ref['re_pm']['tau2']:.4f}  I2={ref['re_pm']['i2_pct']:.1f}%")
 
+    # G07 is an MC experiment, not a study-pooling dataset. Its dataset
+    # file is hand-committed (mc_inputs schema, not `studies`), and its
+    # reference is computed by the precision_sweep.simulate module.
+    mc_count = generate_mc_references(root, summary)
+
     # summary index — also deterministic
     with io.open(os.path.join(root, "SUMMARY.json"), "w", encoding="utf-8") as fh:
         json.dump({"datasets": summary}, fh, indent=2)
-    print(f"\nWrote {len(DATASETS)} dataset + reference pairs to golden/")
+    print(f"\nWrote {len(DATASETS) + mc_count} dataset + reference pairs to golden/")
+
+
+def generate_mc_references(root, summary):
+    """Regenerate Monte Carlo references (G07+).
+
+    MC datasets have an `mc_inputs` block instead of `studies`. The
+    dataset file itself is hand-committed and NOT rewritten here; only
+    the reference file is regenerated deterministically.
+    """
+    ds_dir = os.path.join(root, "datasets")
+    ref_dir = os.path.join(root, "references")
+    count = 0
+    for slug in ("G07-precision-sweep",):
+        ds_file = os.path.join(ds_dir, slug + ".json")
+        if not os.path.exists(ds_file):
+            continue
+        with io.open(ds_file, "r", encoding="utf-8") as fh:
+            ds = json.load(fh)
+        mc = ds["mc_inputs"]
+        # Lazy import so G01-G06 regeneration does not need precision_sweep.
+        import sys
+        sys.path.insert(0, os.path.dirname(root))
+        from precision_sweep.simulate import run_simulation
+        result = run_simulation(
+            seed=mc["seed"],
+            n_replications=mc["n_replications"],
+            true_hr_range=tuple(mc["true_hr_range"]),
+            se_range=tuple(mc["se_range"]),
+            dp_levels=mc["dp_levels"],
+        )
+        ref_file = os.path.join(ref_dir, slug + ".json")
+        with io.open(ref_file, "w", encoding="utf-8") as fh:
+            json.dump({
+                "slug": slug,
+                "title": ds["title"],
+                "generator": "golden/generate_references.py via precision_sweep.simulate",
+                "tolerance": 1e-6,
+                "reference": result,
+                "note": "Monte Carlo reference. Seed + generator + N + ranges + dp_levels are frozen in the dataset file. Browser client-side MC must match these values to within 1e-4 on median (per-dp).",
+            }, fh, indent=2)
+        summary.append({
+            "slug": slug,
+            "is_mc": True,
+            "seed": mc["seed"],
+            "n_replications": mc["n_replications"],
+            "dp_medians": {
+                dp: result["per_dp"][str(dp)]["median"]
+                for dp in mc["dp_levels"]
+            },
+        })
+        medians = " ".join(
+            f"dp{dp}={result['per_dp'][str(dp)]['median']:.6f}"
+            for dp in mc["dp_levels"]
+        )
+        print(f"  {slug:<28}  MC  {medians}")
+        count += 1
+    return count
 
 
 if __name__ == "__main__":
