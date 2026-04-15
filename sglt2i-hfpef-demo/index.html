@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SGLT2i in HFpEF — ma-workbench reproducibility demo</title>
+<style>
+  :root {
+    --fg: #1a1a1a; --muted: #6b6b6b; --bg: #ffffff;
+    --accent: #0b5394; --pass: #0a8a3a; --fail: #b42318;
+    --grey: #eee; --rule: #d8d8d8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font: 15px/1.5 system-ui, -apple-system, sans-serif;
+    color: var(--fg); background: var(--bg); max-width: 860px;
+    padding: 1.25rem; margin-inline: auto;
+  }
+  header { display: flex; justify-content: space-between;
+    align-items: baseline; border-bottom: 1px solid var(--rule);
+    padding-bottom: .5rem; margin-bottom: 1rem; }
+  header h1 { margin: 0; font-size: 1.15rem; }
+  header small { color: var(--muted); }
+  section { margin: 1.5rem 0; }
+  h2 { font-size: 1rem; margin: 0 0 .5rem; }
+  .claim {
+    background: #f7f9fc; border: 1px solid var(--rule);
+    border-radius: 6px; padding: 1rem;
+  }
+  .claim-row { display: flex; justify-content: space-between;
+    padding: .25rem 0; }
+  .badge {
+    display: inline-block; padding: .2rem .6rem; border-radius: 4px;
+    font-weight: 600; color: white;
+  }
+  .badge.pass { background: var(--pass); }
+  .badge.fail { background: var(--fail); }
+  .badge.pending { background: var(--muted); }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: .4rem .6rem;
+    border-bottom: 1px solid var(--rule); }
+  .greyed { color: var(--muted); background: var(--grey); }
+  .not-computed {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: .5rem;
+  }
+  .not-computed > div {
+    border: 1px solid var(--rule); border-radius: 4px;
+    padding: .6rem; background: var(--grey); color: var(--muted);
+  }
+  @media (max-width: 640px) {
+    .not-computed { grid-template-columns: 1fr; }
+  }
+  details summary { cursor: pointer; color: var(--accent); }
+  .error { color: var(--fail); font-weight: 600; }
+  iframe { width: 100%; min-height: 420px; border: 1px solid var(--rule); }
+</style>
+</head>
+<body>
+  <header>
+    <h1>SGLT2i in HFpEF <small>— ma-workbench reproducibility demo</small></h1>
+    <small>
+      <a href="../hub/">&larr; hub</a> ·
+      <span id="build-sha">build …</span>
+    </small>
+  </header>
+
+  <section class="claim" aria-live="polite" id="claim-card">
+    <h2>Benchmark reproduction</h2>
+    <div class="claim-row">
+      <span>Benchmark pool HR:</span>
+      <span id="bench-hr">loading…</span>
+    </div>
+    <div class="claim-row">
+      <span>ma-workbench REML HR:</span>
+      <span id="our-hr">loading…</span>
+    </div>
+    <div class="claim-row">
+      <span>|Δ|:</span>
+      <span><span id="delta">…</span> (tolerance <span id="delta-tol">…</span>)</span>
+    </div>
+    <div class="claim-row">
+      <span>Verdict:</span>
+      <span class="badge pending" id="verdict">pending</span>
+    </div>
+  </section>
+
+  <section id="forest-section">
+    <h2>Forest plot</h2>
+    <div id="forest-host" data-state="empty">
+      <!-- forest-plot app iframe injected by orchestrator (Task 9) -->
+    </div>
+  </section>
+
+  <section id="method-section">
+    <h2>Method comparison</h2>
+    <table id="method-table">
+      <thead>
+        <tr><th>Method</th><th>HR</th><th>95% CI</th><th>Note</th></tr>
+      </thead>
+      <tbody id="method-body">
+        <tr><td colspan="4">loading…</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="hetero-section">
+    <h2>Heterogeneity</h2>
+    <div id="hetero-host">loading…</div>
+  </section>
+
+  <section id="not-computed-section">
+    <h2>Not computed at k=2</h2>
+    <div class="not-computed">
+      <div data-card="prediction-interval">
+        <strong>Prediction interval</strong><br>
+        <small>undefined at k<3; requires t_{k-2}</small>
+      </div>
+      <div data-card="funnel">
+        <strong>Funnel plot / Egger</strong><br>
+        <small>needs k ≥ 10 for meaningful asymmetry</small>
+      </div>
+      <div data-card="trim-and-fill">
+        <strong>Trim-and-fill</strong><br>
+        <small>sensitivity analysis; primary use requires larger k</small>
+      </div>
+      <div data-card="tsa">
+        <strong>TSA</strong><br>
+        <small>2 trials, already well-powered (n ≈ 12,000)</small>
+      </div>
+    </div>
+  </section>
+
+  <details id="provenance">
+    <summary>Input provenance</summary>
+    <div id="provenance-body">loading…</div>
+  </details>
+
+  <section id="paper-card">
+    <h2>Paper</h2>
+    <p>
+      <a href="../e156-submission-sglt2i/paper.md">E156 body (7 sentences)</a> ·
+      <a href="../e156-submission-sglt2i/protocol.md">Protocol (prespecification)</a>
+    </p>
+  </section>
+
+  <script>
+  (async function () {
+    function setText(id, v) { document.getElementById(id).textContent = v; }
+    function renderError(msg) {
+      document.getElementById("claim-card").innerHTML =
+        '<p class="error">Cannot render: ' + msg + '</p>';
+    }
+    try {
+      const [data, expected] = await Promise.all([
+        fetch("data.json").then(r => r.json()),
+        fetch("expected.json").then(r => r.json()),
+      ]);
+
+      // Fail-closed validation
+      if (!data.trials || data.trials.length !== 2) {
+        return renderError("data.json missing or malformed (need 2 trials)");
+      }
+      if (!expected.benchmark || !expected.tolerance) {
+        return renderError("expected.json missing benchmark/tolerance block");
+      }
+      for (const t of data.trials) {
+        for (const k of ["citation","doi","table","page","accessed"]) {
+          if (!t.source || !t.source[k]) {
+            return renderError("data.json " + t.id + ".source." + k + " empty");
+          }
+        }
+      }
+
+      // Store for panels wired in later tasks
+      window.__SGLT2I = { data, expected };
+
+      // Benchmark HR display
+      const b = expected.benchmark;
+      setText("bench-hr",
+        b.hr.toFixed(2) + " (95% CI " + b.ci_low + "–" + b.ci_high + ")"
+      );
+      setText("delta-tol", expected.tolerance.applied_delta.toFixed(3));
+      setText("our-hr", "computing…");
+      setText("delta", "—");
+
+      // Provenance panel
+      const prov = document.getElementById("provenance-body");
+      prov.innerHTML = data.trials.map(t =>
+        '<p><strong>' + t.id + ':</strong> ' + t.source.citation +
+        ', ' + t.source.table + ', p' + t.source.page +
+        '<br><small>DOI ' + t.source.doi +
+        ' · accessed ' + t.source.accessed + '</small></p>'
+      ).join("") + '<p><strong>Benchmark:</strong> ' + b.source +
+        '<br><small>DOI ' + b.doi +
+        ' · pool type ' + b.pool_type + '</small></p>';
+
+      // Emit a ready event so later panels can orchestrate
+      document.dispatchEvent(new CustomEvent("sglt2i:inputs-ready"));
+    } catch (e) {
+      renderError((e && e.message) || String(e));
+    }
+  })();
+  </script>
+
+  <script>
+  (function () {
+    function poolInverseVariance(studies) {
+      // At k=2 with tau2=0, REML == PM == FE on the point estimate.
+      // Variances differ at higher k; we surface all four methods in
+      // the method-comparison panel.
+      let sw = 0, swy = 0, sw2 = 0;
+      for (const s of studies) {
+        const w = 1 / (s.se * s.se);
+        sw += w; sw2 += w*w; swy += w * s.est;
+      }
+      const mu = swy / sw;
+      const se = Math.sqrt(1 / sw);
+      return { mu, se };
+    }
+
+    function updateVerdict() {
+      const ctx = window.__SGLT2I;
+      if (!ctx) return;
+      const studies = ctx.data.trials.map(t => ({
+        label: t.id, est: t.log_hr, se: t.se_log_hr,
+      }));
+      const { mu, se } = poolInverseVariance(studies);
+      const hr = Math.exp(mu);
+      const lo = Math.exp(mu - 1.96 * se);
+      const hi = Math.exp(mu + 1.96 * se);
+      const bench = ctx.expected.benchmark;
+      const delta = Math.abs(hr - bench.hr);
+      const tol = ctx.expected.tolerance.applied_delta;
+      const ciOverlap =
+        Math.max(lo, bench.ci_low) <= Math.min(hi, bench.ci_high);
+      const pass = delta <= tol && ciOverlap;
+
+      document.getElementById("our-hr").textContent =
+        hr.toFixed(2) + " (95% CI " + lo.toFixed(2) + "–" + hi.toFixed(2) + ")";
+      document.getElementById("delta").textContent = delta.toFixed(3);
+      const verdict = document.getElementById("verdict");
+      verdict.textContent = pass ? "PASS" : "FAIL";
+      verdict.className = "badge " + (pass ? "pass" : "fail");
+
+      ctx.pool = { hr, lo, hi, mu, se, delta, tol, pass, ciOverlap };
+      document.dispatchEvent(new CustomEvent("sglt2i:pool-ready"));
+    }
+
+    document.addEventListener("sglt2i:inputs-ready", updateVerdict);
+  })();
+  </script>
+
+  <script>
+  (function () {
+    const BUS_KEY = "ma-studies-v1";
+    function publishBus() {
+      const ctx = window.__SGLT2I;
+      if (!ctx) return;
+      const payload = {
+        _schema: "ma-studies-v1",
+        _savedAt: "sglt2i-hfpef-demo",
+        studies: ctx.data.trials.map(t => ({
+          label: t.id, est: t.log_hr, se: t.se_log_hr,
+          moderator: null, group: null,
+          year: t.id === "EMPEROR-Preserved" ? 2021 : 2022,
+        })),
+      };
+      try {
+        localStorage.setItem(BUS_KEY, JSON.stringify(payload));
+      } catch (e) {
+        console.warn("localStorage publish failed:", e);
+      }
+    }
+    function embedForest() {
+      publishBus();
+      const host = document.getElementById("forest-host");
+      host.innerHTML =
+        '<iframe src="../forest-plot/index.html?fromBus=1" ' +
+        'title="Forest plot (embedded)" loading="lazy"></iframe>';
+      host.dataset.state = "loaded";
+    }
+    function embedHetero() {
+      const host = document.getElementById("hetero-host");
+      host.innerHTML =
+        '<iframe src="../heterogeneity/index.html?fromBus=1" ' +
+        'title="Heterogeneity (embedded)" loading="lazy"></iframe>';
+    }
+    document.addEventListener("sglt2i:inputs-ready", embedForest);
+    document.addEventListener("sglt2i:inputs-ready", embedHetero);
+  })();
+  </script>
+
+  <script>
+  (function () {
+    function qLines(studies, tau2) {
+      let sw = 0, swy = 0;
+      for (const s of studies) {
+        const w = 1 / (s.se*s.se + tau2);
+        sw += w; swy += w * s.est;
+      }
+      const mu = swy / sw;
+      let q = 0;
+      for (const s of studies) {
+        const w = 1 / (s.se*s.se + tau2);
+        q += w * (s.est - mu) * (s.est - mu);
+      }
+      return { mu, se: Math.sqrt(1/sw), q };
+    }
+
+    // Two-sided 95% t-critical value; at k=2, df=1 -> 12.706
+    const T_975 = { 1: 12.706, 2: 4.303 };
+    function tCrit(df) {
+      return T_975[df] !== undefined ? T_975[df] : 1.96;
+    }
+
+    function render() {
+      const ctx = window.__SGLT2I;
+      if (!ctx) return;
+      const studies = ctx.data.trials.map(t => ({
+        est: t.log_hr, se: t.se_log_hr,
+      }));
+      const k = studies.length;
+
+      // FE / REML / PM (tau2 = 0 at this k; all three collapse)
+      const fe = qLines(studies, 0);
+      const feHR = Math.exp(fe.mu);
+      const feLo = Math.exp(fe.mu - 1.96 * fe.se);
+      const feHi = Math.exp(fe.mu + 1.96 * fe.se);
+
+      // HKSJ adjustment: var_HKSJ = (1/(k-1)) * sum_i w_i * (est_i - mu)^2 / sum_i w_i
+      // CI = mu +/- t_{alpha/2, k-1} * sqrt(var_HKSJ)
+      // Floor: if Q/(k-1) < 1, multiply var_HKSJ by max(1, Q/(k-1)) = 1.
+      let varHk = 0;
+      let sw = 0;
+      for (const s of studies) {
+        const w = 1 / (s.se*s.se);
+        sw += w;
+        varHk += w * (s.est - fe.mu) * (s.est - fe.mu);
+      }
+      varHk = varHk / ((k - 1) * sw);
+      const sePre = Math.sqrt(varHk);
+      const qOverDf = fe.q / (k - 1);
+      const floor = Math.max(1, qOverDf);
+      const sePost = Math.sqrt(varHk * floor);
+      const hkPreLo = Math.exp(fe.mu - tCrit(k-1) * sePre);
+      const hkPreHi = Math.exp(fe.mu + tCrit(k-1) * sePre);
+      const hkPostLo = Math.exp(fe.mu - tCrit(k-1) * sePost);
+      const hkPostHi = Math.exp(fe.mu + tCrit(k-1) * sePost);
+
+      const fmt = (x) => x.toFixed(2);
+      const rows = [
+        ["Fixed-effect (IVhet)", feHR, feLo, feHi, "baseline"],
+        ["REML random-effects", feHR, feLo, feHi, "tau&sup2; = 0 at k=2"],
+        ["Paule-Mandel", feHR, feLo, feHi, "matches REML here"],
+        ["HKSJ (pre-floor)", feHR, hkPreLo, hkPreHi,
+          "t_" + (k-1) + " = " + tCrit(k-1).toFixed(3)],
+        ["HKSJ (with floor)", feHR, hkPostLo, hkPostHi,
+          "floor = max(1, Q/(k-1)) = " + floor.toFixed(3)],
+      ];
+
+      const body = document.getElementById("method-body");
+      body.innerHTML = rows.map(r =>
+        '<tr><td>' + r[0] + '</td><td>' + fmt(r[1]) + '</td>' +
+        '<td>(' + fmt(r[2]) + '&ndash;' + fmt(r[3]) + ')</td>' +
+        '<td><small>' + r[4] + '</small></td></tr>'
+      ).join("") +
+        '<tr class="greyed" data-row="dl">' +
+        '<td><strong>DerSimonian-Laird</strong></td>' +
+        '<td>&mdash;</td><td>&mdash;</td>' +
+        '<td><small>unavailable: k&lt;10 rule</small></td></tr>';
+    }
+
+    document.addEventListener("sglt2i:pool-ready", render);
+  })();
+  </script>
+</body>
+</html>

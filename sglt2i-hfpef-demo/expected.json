@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "benchmark": {
+    "source": "Vaduganathan M et al. Lancet 2022;400:757-767 (2-trial HFpEF subset)",
+    "doi": "10.1016/S0140-6736(22)01429-5",
+    "pool_type": "aggregate",
+    "hr": 0.80,
+    "ci_low": 0.73,
+    "ci_high": 0.87,
+    "accessed": "2026-04-15"
+  },
+  "tolerance": {
+    "delta_hr_ipd_branch": 0.02,
+    "delta_hr_aggregate_branch": 0.005,
+    "applied_delta": 0.005,
+    "applied_delta_source": "derived from benchmark.pool_type per protocol.md",
+    "method": "REML random-effects, GIV on log-HR",
+    "decision_rule": "|pooled_hr - benchmark.hr| <= applied_delta AND pooled 95% CI overlaps benchmark 95% CI"
+  }
+}

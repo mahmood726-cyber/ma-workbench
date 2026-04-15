@@ -1,0 +1,27 @@
+{
+  "slug": "G06-sglt2i-hfpef-benchmark",
+  "title": "SGLT2i in HFpEF: EMPEROR-Preserved + DELIVER primary composite pool (k=2)",
+  "generator": "golden/generate_references.py",
+  "tolerance": 0.0001,
+  "reference": {
+    "k": 2,
+    "fe": {
+      "estimate": -0.2145306716,
+      "se": 0.0445075904,
+      "ci_lb": -0.3017655487,
+      "ci_ub": -0.1272957945
+    },
+    "re_pm": {
+      "estimate": -0.2145306716,
+      "se": 0.0445075904,
+      "ci_lb": -0.3017655487,
+      "ci_ub": -0.1272957945,
+      "tau2": 0.0,
+      "i2_pct": 0.0,
+      "qe": 0.1713131233,
+      "df": 1,
+      "pi_95": null
+    }
+  },
+  "note": "Computed in Python using the same Paule-Mandel bisection and IV pooling formulas the browser apps implement in JavaScript. Browser and R outputs must match these values to within tolerance. Deterministic \u2014 provenance is the git commit SHA, not a timestamp."
+}

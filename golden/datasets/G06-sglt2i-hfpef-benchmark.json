@@ -1,0 +1,30 @@
+{
+  "slug": "G06-sglt2i-hfpef-benchmark",
+  "title": "SGLT2i in HFpEF: EMPEROR-Preserved + DELIVER primary composite pool (k=2)",
+  "description": "Real-trial 2-study pool. Pooling HR 0.79 and HR 0.82 on log-HR scale; expected REML HR ~0.80, tau2 ~0, I2 ~0, Q small. Benchmark reproduction target with adaptive delta (0.02 IPD / 0.005 aggregate) per protocol.md.",
+  "effect_label": "logHR",
+  "null_value": 0,
+  "bus_payload": {
+    "_schema": "ma-studies-v1",
+    "_savedAt": "deterministic",
+    "studies": [
+      {
+        "label": "EMPEROR-Preserved",
+        "est": -0.2357,
+        "se": 0.0678,
+        "moderator": null,
+        "group": null,
+        "year": null
+      },
+      {
+        "label": "DELIVER",
+        "est": -0.1985,
+        "se": 0.059,
+        "moderator": null,
+        "group": null,
+        "year": null
+      }
+    ]
+  },
+  "r_script": "# G06-sglt2i-hfpef-benchmark \u2014 SGLT2i in HFpEF: EMPEROR-Preserved + DELIVER primary composite pool (k=2)\nlibrary(metafor)\nyi  <- c(-0.235700, -0.198500)\nsei <- c(0.067800, 0.059000)\nslab <- c(\"EMPEROR-Preserved\", \"DELIVER\")\nfe <- rma(yi, sei = sei, method = \"FE\", slab = slab)\npm <- rma(yi, sei = sei, method = \"PM\", slab = slab)\ncat(sprintf(\n  \"fe.estimate=%.10f\\nfe.se=%.10f\\n\n   pm.estimate=%.10f\\npm.se=%.10f\\npm.tau2=%.10f\\npm.I2=%.10f\\npm.QE=%.10f\\n\",\n  as.numeric(fe$b), as.numeric(fe$se),\n  as.numeric(pm$b), as.numeric(pm$se),\n  as.numeric(pm$tau2), as.numeric(pm$I2), as.numeric(pm$QE)))"
+}

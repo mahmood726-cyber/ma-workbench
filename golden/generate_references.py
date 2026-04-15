@@ -220,6 +220,17 @@ DATASETS = [
             {"label": "P7", "est": -0.05, "se": 0.09},
         ],
     },
+    {
+        "slug": "G06-sglt2i-hfpef-benchmark",
+        "title": "SGLT2i in HFpEF: EMPEROR-Preserved + DELIVER primary composite pool (k=2)",
+        "description": "Real-trial 2-study pool. Pooling HR 0.79 and HR 0.82 on log-HR scale; expected REML HR ~0.80, tau2 ~0, I2 ~0, Q small. Benchmark reproduction target with adaptive delta (0.02 IPD / 0.005 aggregate) per protocol.md.",
+        "effect_label": "logHR",
+        "null_value": 0,
+        "studies": [
+            {"label": "EMPEROR-Preserved", "est": -0.2357, "se": 0.0678},
+            {"label": "DELIVER", "est": -0.1985, "se": 0.0590},
+        ],
+    },
 ]
 
 
