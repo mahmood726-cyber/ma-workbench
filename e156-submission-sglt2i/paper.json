@@ -1,0 +1,31 @@
+{
+  "paper_id": "E156-sglt2i-hfpef-benchmark",
+  "branch": "FAIL",
+  "computed": {
+    "pooled_hr": 0.8069,
+    "pooled_ci_low": 0.7395,
+    "pooled_ci_high": 0.8804,
+    "delta_hr": 0.0069,
+    "applied_delta": 0.005,
+    "tau2": 0.0,
+    "i2_pct": 0.0,
+    "q_pvalue": 0.68,
+    "method_range_hr": 0.0,
+    "ci_overlap": true,
+    "benchmark": {
+      "name": "Vaduganathan 2022 Lancet",
+      "hr": 0.80,
+      "ci_low": 0.73,
+      "ci_high": 0.87
+    }
+  },
+  "sentences": {
+    "S1": "Does a browser-only meta-analysis workbench reproduce the published fixed-effects pooled hazard ratio for SGLT2 inhibitors on the primary composite endpoint in HFpEF?",
+    "S2": "Two trials, n=12,251: EMPEROR-Preserved (empagliflozin, 5988) and DELIVER (dapagliflozin, 6263), primary composite hazard ratios taken from published NEJM tables.",
+    "S3": "Generic inverse-variance pooling on the log-hazard-ratio scale using REML random-effects, with fixed-effect, Paule-Mandel, and HKSJ-with-floor as sensitivity estimators.",
+    "S4": "REML pool: HR 0.81 (95% CI 0.74-0.88), |Δ|=0.007 exceeds prespecified tolerance 0.005 versus Vaduganathan 2022 Lancet pool HR 0.80 (0.73-0.87); τ²=0.00, I²=0%, Q-p=0.68.",
+    "S5": "Across estimators the pooled HR is 0.81 (range 0.00 between FE and PM at τ²=0); DerSimonian-Laird is not reported because it is inappropriate at k<10.",
+    "S6": "Divergence exceeds the tight aggregate-branch tolerance, attributable to two-decimal-place rounding of trial-reported HRs against a pool retaining more precision internally.",
+    "S7": "The pool uses two-decimal-place HRs; prediction intervals, funnel plots, and trim-and-fill are undefined at k=2; prespecified FAIL boundary."
+  }
+}
