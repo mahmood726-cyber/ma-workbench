@@ -90,7 +90,11 @@ def test_dl_excluded_in_demo_page():
     assert html.exists(), f"{html} missing"
     text = html.read_text(encoding="utf-8")
     assert "DerSimonian" in text or "DL" in text, "no DL row in method panel"
-    assert "k<10" in text, "DL exclusion reason 'k<10' not present"
+    # Accept either literal '<' or the HTML-entity encoded form '&lt;' since
+    # the same character must be entity-encoded inside HTML text content.
+    assert "k<10" in text or "k&lt;10" in text, (
+        "DL exclusion reason 'k<10' not present (literal or entity form)"
+    )
 
 
 def test_undefined_panels_reasons_present():
