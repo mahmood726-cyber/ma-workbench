@@ -1,0 +1,48 @@
+{
+  "records": {
+    "precision-sweep-v1.0": {
+      "ci_lower": null,
+      "ci_upper": null,
+      "commit_sha": "c76286eceda8a3dadbeeb108ab715641c9fd3eed",
+      "extra": {
+        "dp1_median": 0.0179,
+        "dp1_p95": 0.0469,
+        "dp2_max": 0.0084,
+        "dp2_median": 0.0016,
+        "dp2_p95": 0.0044,
+        "dp3_median": 0.0002,
+        "dp3_p95": 0.0004,
+        "dp4_median": 2e-05,
+        "dp4_p95": 4e-05,
+        "frac_gt_0p005_dp2": 0.024,
+        "n_replications": 10000.0
+      },
+      "i2": null,
+      "k": null,
+      "paper_id": "precision-sweep-v1.0",
+      "pooled_estimate": null,
+      "q": null,
+      "recorded_at": "2026-04-20T06:36:16Z",
+      "se": null,
+      "tau2": null
+    },
+    "sglt2i-hfpef-v1.0": {
+      "ci_lower": 0.7395,
+      "ci_upper": 0.8804,
+      "commit_sha": "c76286eceda8a3dadbeeb108ab715641c9fd3eed",
+      "extra": {
+        "benchmark_hr": 0.8,
+        "delta_hr": 0.0069
+      },
+      "i2": null,
+      "k": 2.0,
+      "paper_id": "sglt2i-hfpef-v1.0",
+      "pooled_estimate": 0.8069,
+      "q": null,
+      "recorded_at": "2026-04-20T06:36:16Z",
+      "se": null,
+      "tau2": 0.0
+    }
+  },
+  "schema_version": "0.1"
+}
