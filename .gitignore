@@ -10,7 +10,10 @@ sentinel-findings.jsonl
 # Python
 __pycache__/
 .pytest_cache/
+.pytest_cache_local/
 .pytest_tmp/
+.pytest_tmp_local/
+pytest-cache-files-*/
 *.pyc
 
 # Backups / archives
