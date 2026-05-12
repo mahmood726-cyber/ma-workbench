@@ -84,7 +84,7 @@
         <legend>Data</legend>
         <label>
           <span class="lbl">CSV: <code>label, estimate, SE</code></span>
-          <textarea id="f-data" spellcheck="false"></textarea>
+          <textarea id="f-data" spellcheck="false" aria-label="f data"></textarea>
           <span class="hint">Estimates should be on the analysis scale (e.g. logOR, logRR, MD).</span>
         </label>
       </fieldset>
@@ -94,17 +94,17 @@
         <div class="row-2">
           <label>
             <span class="lbl">Prior mean μ₀</span>
-            <input type="number" id="f-mu0" step="any" value="0">
+            <input type="number" id="f-mu0" step="any" value="0" aria-label="f mu0">
           </label>
           <label>
             <span class="lbl">Prior SD τ₀</span>
-            <input type="number" id="f-tau0" step="any" min="0.01" value="1">
+            <input type="number" id="f-tau0" step="any" min="0.01" value="1" aria-label="f tau0">
             <span class="hint">Large SD = weakly informative. 1000 ≈ flat.</span>
           </label>
         </div>
         <label>
           <span class="lbl">Prior strength slider — τ₀ on log10 scale</span>
-          <input type="range" id="f-slider" min="-2" max="3" step="0.05" value="0">
+          <input type="range" id="f-slider" min="-2" max="3" step="0.05" value="0" aria-label="f slider">
           <span class="hint">Slide to explore how a more or less informative prior changes the posterior. <span id="slider-val" class="slider-val">1.00</span></span>
         </label>
       </fieldset>
@@ -113,7 +113,7 @@
         <legend>Between-study variance (random effects)</legend>
         <label>
           <span class="lbl">τ² estimator</span>
-          <select id="f-tau-method">
+          <select id="f-tau-method" aria-label="f tau method">
             <option value="0">Fixed effect (τ² = 0)</option>
             <option value="PM" selected>Plug-in τ² via Paule-Mandel (empirical Bayes)</option>
             <option value="manual">Manual τ²</option>
@@ -121,7 +121,7 @@
         </label>
         <label>
           <span class="lbl">Manual τ²</span>
-          <input type="number" id="f-tau2-manual" step="any" min="0" value="0">
+          <input type="number" id="f-tau2-manual" step="any" min="0" value="0" aria-label="f tau2 manual">
         </label>
       </fieldset>
 
@@ -129,11 +129,11 @@
         <legend>Probability targets</legend>
         <label>
           <span class="lbl">Posterior P(θ &lt; c), c =</span>
-          <input type="number" id="f-threshold" step="any" value="0">
+          <input type="number" id="f-threshold" step="any" value="0" aria-label="f threshold">
         </label>
         <label>
           <span class="lbl">ROPE half-width (practical equivalence |θ| ≤ δ)</span>
-          <input type="number" id="f-rope" step="any" min="0" value="0.1">
+          <input type="number" id="f-rope" step="any" min="0" value="0.1" aria-label="f rope">
         </label>
       </fieldset>
 
@@ -149,7 +149,7 @@
         <button type="button" id="btn-bus-load" title="Load studies from the shared MA bus">↓ Shared</button>
         <button type="button" id="btn-bus-save" title="Push current studies to the shared MA bus">↑ Shared</button>
         <button type="button" id="btn-reset">Reset</button>
-        <input type="file" id="file-import" class="file-input-hidden" accept="application/json,.json">
+        <input type="file" id="file-import" class="file-input-hidden" accept="application/json,.json" aria-label="file import">
       </div>
     </section>
 

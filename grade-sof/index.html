@@ -102,26 +102,26 @@
         <legend>Header</legend>
         <label>
           <span class="lbl">PICO / review question</span>
-          <input type="text" id="f-title" placeholder="e.g. SGLT2 inhibitors compared with placebo for heart failure">
+          <input type="text" id="f-title" placeholder="e.g. SGLT2 inhibitors compared with placebo for heart failure" aria-label="f title">
         </label>
         <div class="row-2">
           <label>
             <span class="lbl">Patient / population</span>
-            <input type="text" id="f-population" placeholder="e.g. Adults with HFpEF">
+            <input type="text" id="f-population" placeholder="e.g. Adults with HFpEF" aria-label="f population">
           </label>
           <label>
             <span class="lbl">Setting</span>
-            <input type="text" id="f-setting" placeholder="e.g. Outpatient clinic">
+            <input type="text" id="f-setting" placeholder="e.g. Outpatient clinic" aria-label="f setting">
           </label>
         </div>
         <div class="row-2">
           <label>
             <span class="lbl">Intervention</span>
-            <input type="text" id="f-intervention" placeholder="e.g. SGLT2 inhibitor">
+            <input type="text" id="f-intervention" placeholder="e.g. SGLT2 inhibitor" aria-label="f intervention">
           </label>
           <label>
             <span class="lbl">Comparator</span>
-            <input type="text" id="f-comparator" placeholder="e.g. Placebo">
+            <input type="text" id="f-comparator" placeholder="e.g. Placebo" aria-label="f comparator">
           </label>
         </div>
       </fieldset>
@@ -135,7 +135,7 @@
         <button type="button" id="btn-import">Import JSON</button>
         <button type="button" id="btn-example">Load example</button>
         <button type="button" id="btn-reset">Reset</button>
-        <input type="file" id="file-import" class="file-input-hidden" accept="application/json,.json">
+        <input type="file" id="file-import" class="file-input-hidden" accept="application/json,.json" aria-label="file import">
       </div>
     </section>
 
@@ -260,35 +260,35 @@
         '  <strong>Outcome ' + (idx+1) + '</strong>',
         '  <button type="button" class="danger" data-action="remove" data-idx="' + idx + '">Remove</button>',
         '</div>',
-        '<label><span class="lbl">Outcome name</span><input type="text" data-field="outcome" value="' + escapeHtml(o.outcome) + '"></label>',
-        '<label><span class="lbl">Follow-up</span><input type="text" data-field="followup" value="' + escapeHtml(o.followup) + '" placeholder="e.g. Median 26 months"></label>',
+        '<label><span class="lbl">Outcome name</span><input type="text" data-field="outcome" value="' + escapeHtml(o.outcome) + '" aria-label="text control"></label>',
+        '<label><span class="lbl">Follow-up</span><input type="text" data-field="followup" value="' + escapeHtml(o.followup) + '" placeholder="e.g. Median 26 months" aria-label="e.g. Median 26 months"></label>',
         '<div class="row-2">',
-        '  <label><span class="lbl">Assumed risk (control)</span><input type="text" data-field="assumed" value="' + escapeHtml(o.assumed) + '" placeholder="e.g. 72 per 1,000"></label>',
-        '  <label><span class="lbl">Corresponding risk</span><input type="text" data-field="corresponding" value="' + escapeHtml(o.corresponding) + '" placeholder="e.g. 61 per 1,000 (49 to 76)"></label>',
+        '  <label><span class="lbl">Assumed risk (control)</span><input type="text" data-field="assumed" value="' + escapeHtml(o.assumed) + '" placeholder="e.g. 72 per 1,000" aria-label="e.g. 72 per 1,000"></label>',
+        '  <label><span class="lbl">Corresponding risk</span><input type="text" data-field="corresponding" value="' + escapeHtml(o.corresponding) + '" placeholder="e.g. 61 per 1,000 (49 to 76)" aria-label="e.g. 61 per 1,000 (49 to 76)"></label>',
         '</div>',
         '<div class="row-3">',
-        '  <label><span class="lbl">Effect type</span><select data-field="effectType">',
+        '  <label><span class="lbl">Effect type</span><select data-field="effectType" aria-label="select control">',
         '    <option value="RR"' + (o.effectType==="RR"?' selected':'') + '>RR</option>',
         '    <option value="OR"' + (o.effectType==="OR"?' selected':'') + '>OR</option>',
         '    <option value="HR"' + (o.effectType==="HR"?' selected':'') + '>HR</option>',
         '    <option value="MD"' + (o.effectType==="MD"?' selected':'') + '>MD</option>',
         '    <option value="SMD"' + (o.effectType==="SMD"?' selected':'') + '>SMD</option>',
         '  </select></label>',
-        '  <label><span class="lbl">Point estimate</span><input type="text" data-field="effect" value="' + escapeHtml(o.effect) + '" placeholder="0.85"></label>',
-        '  <label><span class="lbl">CI low</span><input type="text" data-field="ciLo" value="' + escapeHtml(o.ciLo) + '" placeholder="0.68"></label>',
+        '  <label><span class="lbl">Point estimate</span><input type="text" data-field="effect" value="' + escapeHtml(o.effect) + '" placeholder="0.85" aria-label="0.85"></label>',
+        '  <label><span class="lbl">CI low</span><input type="text" data-field="ciLo" value="' + escapeHtml(o.ciLo) + '" placeholder="0.68" aria-label="0.68"></label>',
         '</div>',
         '<div class="row-3">',
-        '  <label><span class="lbl">CI high</span><input type="text" data-field="ciHi" value="' + escapeHtml(o.ciHi) + '" placeholder="1.06"></label>',
-        '  <label><span class="lbl">№ participants</span><input type="text" data-field="participants" value="' + escapeHtml(o.participants) + '"></label>',
-        '  <label><span class="lbl">№ studies</span><input type="text" data-field="studies" value="' + escapeHtml(o.studies) + '"></label>',
+        '  <label><span class="lbl">CI high</span><input type="text" data-field="ciHi" value="' + escapeHtml(o.ciHi) + '" placeholder="1.06" aria-label="1.06"></label>',
+        '  <label><span class="lbl">№ participants</span><input type="text" data-field="participants" value="' + escapeHtml(o.participants) + '" aria-label="text control"></label>',
+        '  <label><span class="lbl">№ studies</span><input type="text" data-field="studies" value="' + escapeHtml(o.studies) + '" aria-label="text control"></label>',
         '</div>',
-        '<label><span class="lbl">Certainty</span><select data-field="certainty">',
+        '<label><span class="lbl">Certainty</span><select data-field="certainty" aria-label="select control">',
         '  <option value="high"' + (o.certainty==="high"?' selected':'') + '>High</option>',
         '  <option value="moderate"' + (o.certainty==="moderate"?' selected':'') + '>Moderate</option>',
         '  <option value="low"' + (o.certainty==="low"?' selected':'') + '>Low</option>',
         '  <option value="verylow"' + (o.certainty==="verylow"?' selected':'') + '>Very low</option>',
         '</select></label>',
-        '<label><span class="lbl">Comments</span><textarea data-field="comments" rows="2" placeholder="Reasons for down/up-grading, caveats">' + escapeHtml(o.comments) + '</textarea></label>'
+        '<label><span class="lbl">Comments</span><textarea data-field="comments" rows="2" placeholder="Reasons for down/up-grading, caveats" aria-label="Reasons for down/up grading, caveats">' + escapeHtml(o.comments) + '</textarea></label>'
       ].join("\n");
       return div;
     }

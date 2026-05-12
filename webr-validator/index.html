@@ -89,7 +89,7 @@
         <legend>Data</legend>
         <label>
           <span class="lbl">CSV: <code>label, estimate, SE</code></span>
-          <textarea id="f-data" spellcheck="false"></textarea>
+          <textarea id="f-data" spellcheck="false" aria-label="f data"></textarea>
           <span class="hint">Or click "Load from shared bus" to pull studies from another workspace app.</span>
         </label>
       </fieldset>
@@ -98,7 +98,7 @@
         <legend>Method</legend>
         <label>
           <span class="lbl">τ² estimator (must match browser)</span>
-          <select id="f-method">
+          <select id="f-method" aria-label="f method">
             <option value="PM">Paule-Mandel (PM) — default</option>
             <option value="REML">REML</option>
             <option value="DL">DerSimonian-Laird (DL, k≥10)</option>
@@ -106,7 +106,7 @@
         </label>
         <label>
           <span class="lbl">Test method</span>
-          <select id="f-test">
+          <select id="f-test" aria-label="f test">
             <option value="z">z (standard)</option>
             <option value="knha">Knapp-Hartung (t, HKSJ)</option>
           </select>
@@ -117,7 +117,7 @@
         <legend>WebR source</legend>
         <label>
           <span class="lbl">WebR module URL</span>
-          <input type="text" id="f-webr-url" value="https://webr.r-wasm.org/latest/webr.mjs">
+          <input type="text" id="f-webr-url" value="https://webr.r-wasm.org/latest/webr.mjs" aria-label="f webr url">
           <span class="hint">Default is the public CDN; for offline use, download a release from <code>github.com/r-wasm/webr/releases</code> and point this at a self-hosted path. Adapter won't fire until you click "Run in WebR".</span>
         </label>
       </fieldset>
@@ -126,7 +126,7 @@
         <legend>Receipt signing (HMAC-SHA256)</legend>
         <label>
           <span class="lbl">Signing key (never stored)</span>
-          <input type="password" id="f-hmac-key" placeholder="Paste a shared secret — 16+ chars recommended">
+          <input type="password" id="f-hmac-key" placeholder="Paste a shared secret — 16+ chars recommended" aria-label="f hmac key">
           <span class="hint">The key stays in memory for this tab only and is never written to localStorage. Use the <em>same</em> key when you verify. If left blank, the downloaded receipt is labelled LEGACY and is not cryptographically verifiable.</span>
         </label>
       </fieldset>
@@ -137,7 +137,7 @@
         <button type="button" id="btn-bus-load">↓ Load from shared bus</button>
         <button type="button" id="btn-example">Load example</button>
         <button type="button" id="btn-reset">Reset</button>
-        <label style="margin-top:0.5rem; font-size:0.82rem;"><input type="checkbox" id="f-acknowledge" style="width:auto;margin-right:0.35rem"> I understand WebR will download ~30 MB from the URL above on first use.</label>
+        <label style="margin-top:0.5rem; font-size:0.82rem;"><input type="checkbox" id="f-acknowledge" style="width:auto;margin-right:0.35rem" aria-label="f acknowledge"> I understand WebR will download ~30 MB from the URL above on first use.</label>
       </div>
 
       <div id="warn-banner" class="warn-banner" role="status" aria-live="polite"></div>
@@ -146,7 +146,7 @@
         <legend>Paste-back path (no WebR)</legend>
         <label>
           <span class="lbl">R console output</span>
-          <textarea id="f-r-output" spellcheck="false" placeholder="Paste the full output of rma(...) here"></textarea>
+          <textarea id="f-r-output" spellcheck="false" placeholder="Paste the full output of rma(...) here" aria-label="f r output"></textarea>
           <span class="hint">The parser looks for <code>estimate</code>, <code>se</code>, <code>ci.lb</code>, <code>ci.ub</code>, <code>tau^2</code>, <code>I^2</code>, and <code>QE</code>.</span>
         </label>
         <div class="actions" style="margin-top:0.5rem;border-top:none;padding-top:0">
@@ -158,7 +158,7 @@
         <legend>Verify an external receipt</legend>
         <label>
           <span class="lbl">Paste a TruthCert JSON receipt</span>
-          <textarea id="f-verify-json" spellcheck="false" placeholder='{"_schema":"truthcert-webr-v1", ..., "signature":"..."}'></textarea>
+          <textarea id="f-verify-json" spellcheck="false" placeholder='{"_schema":"truthcert-webr-v1", ..., "signature":"..."}' aria-label="f verify json"></textarea>
           <span class="hint">Uses the <em>Signing key</em> field above. A peer can verify your receipt by entering the same key you signed with.</span>
         </label>
         <div class="actions" style="margin-top:0.5rem;border-top:none;padding-top:0">

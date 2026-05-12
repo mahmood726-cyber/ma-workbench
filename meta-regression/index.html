@@ -81,7 +81,7 @@
         <legend>Data</legend>
         <label>
           <span class="lbl">CSV: <code>label, estimate, SE, moderator</code></span>
-          <textarea id="f-data" spellcheck="false"></textarea>
+          <textarea id="f-data" spellcheck="false" aria-label="f data"></textarea>
           <span class="hint">Four columns required. Lines starting with <code>#</code> are ignored.</span>
         </label>
       </fieldset>
@@ -90,15 +90,15 @@
         <legend>Display</legend>
         <label>
           <span class="lbl">Plot title</span>
-          <input type="text" id="f-title" placeholder="e.g. SGLT2i — effect by baseline LVEF">
+          <input type="text" id="f-title" placeholder="e.g. SGLT2i — effect by baseline LVEF" aria-label="f title">
         </label>
         <label>
           <span class="lbl">Moderator label (x-axis)</span>
-          <input type="text" id="f-modlabel" placeholder="e.g. Baseline LVEF (%)">
+          <input type="text" id="f-modlabel" placeholder="e.g. Baseline LVEF (%)" aria-label="f modlabel">
         </label>
         <label>
           <span class="lbl">Effect label (y-axis)</span>
-          <input type="text" id="f-effectlabel" value="Effect (logOR)">
+          <input type="text" id="f-effectlabel" value="Effect (logOR)" aria-label="f effectlabel">
         </label>
       </fieldset>
 
@@ -116,7 +116,7 @@
         <button type="button" id="btn-rscript">Export R script</button>
         <button type="button" id="btn-validate-webr" title="Save to bus and open the WebR validator">Validate (R)</button>
         <button type="button" id="btn-reset">Reset</button>
-        <input type="file" id="file-import" class="file-input-hidden" accept="application/json,.json">
+        <input type="file" id="file-import" class="file-input-hidden" accept="application/json,.json" aria-label="file import">
       </div>
     </section>
 

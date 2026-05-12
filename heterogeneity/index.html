@@ -85,7 +85,7 @@
         <legend>Data</legend>
         <label>
           <span class="lbl">CSV: <code>label, estimate, SE</code></span>
-          <textarea id="f-data" spellcheck="false"></textarea>
+          <textarea id="f-data" spellcheck="false" aria-label="f data"></textarea>
           <span class="hint">Lines starting with <code>#</code> or blanks are ignored.</span>
         </label>
       </fieldset>
@@ -94,7 +94,7 @@
         <legend>Options</legend>
         <label>
           <span class="lbl">τ² estimator for CI / PI</span>
-          <select id="f-tau2">
+          <select id="f-tau2" aria-label="f tau2">
             <option value="pm">Paule-Mandel (default, any k)</option>
             <option value="reml">REML (any k)</option>
             <option value="dl">DerSimonian-Laird (k ≥ 10 only)</option>
@@ -117,7 +117,7 @@
         <button type="button" id="btn-bus-save" title="Push current studies to the shared MA bus">↑ Shared</button>
         <button type="button" id="btn-validate-webr" title="Save to bus and open the WebR validator">Validate (R)</button>
         <button type="button" id="btn-reset">Reset</button>
-        <input type="file" id="file-import" class="file-input-hidden" accept="application/json,.json">
+        <input type="file" id="file-import" class="file-input-hidden" accept="application/json,.json" aria-label="file import">
       </div>
     </section>
 

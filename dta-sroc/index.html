@@ -81,7 +81,7 @@
         <legend>Data</legend>
         <label>
           <span class="lbl">CSV: <code>label, TP, FP, FN, TN</code></span>
-          <textarea id="f-data" spellcheck="false"></textarea>
+          <textarea id="f-data" spellcheck="false" aria-label="f data"></textarea>
           <span class="hint">TP = true positives, FP = false positives, FN = false negatives, TN = true negatives. Continuity correction (+0.5 to all cells) applied only if any cell is zero (advanced-stats.md).</span>
         </label>
       </fieldset>
@@ -90,7 +90,7 @@
         <legend>Display</legend>
         <label>
           <span class="lbl">Plot title</span>
-          <input type="text" id="f-title" placeholder="e.g. Troponin for acute MI — SROC">
+          <input type="text" id="f-title" placeholder="e.g. Troponin for acute MI — SROC" aria-label="f title">
         </label>
       </fieldset>
 
@@ -104,7 +104,7 @@
         <button type="button" id="btn-import">Import JSON</button>
         <button type="button" id="btn-example">Load example</button>
         <button type="button" id="btn-reset">Reset</button>
-        <input type="file" id="file-import" class="file-input-hidden" accept="application/json,.json">
+        <input type="file" id="file-import" class="file-input-hidden" accept="application/json,.json" aria-label="file import">
       </div>
     </section>
 
