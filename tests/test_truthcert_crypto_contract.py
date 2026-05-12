@@ -1,6 +1,6 @@
 """Integration contract for HMAC-signed TruthCert receipts.
 
-Per C:/Users/user/.claude/rules/lessons.md (Cryptography / Signing):
+Per the local agent lessons on Cryptography / Signing:
 - HMAC key must NOT come from the bundle itself.
 - Placeholder signatures are a security bug, not a TODO.
 - Constant-time comparison always.

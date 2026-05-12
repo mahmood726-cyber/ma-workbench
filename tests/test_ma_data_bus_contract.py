@@ -1,6 +1,6 @@
 """Integration contract test for the ma-studies-v1 shared data bus.
 
-Per C:/Users/user/.claude/rules/testing.md "Integration Tests First":
+Per the local testing rules on "Integration Tests First":
 this test defines the contract between study-based MA apps BEFORE the
 bus is retrofitted into each one. It must run green after the retrofit.
 

@@ -9,8 +9,7 @@ single-file static HTML page, so the contract we need to verify is that:
   3. Every form-input id the inline script wires up actually exists.
   4. Basic structural integrity: div and script tag balance, no
      placeholder tokens left over.
-  5. No external CDN at runtime (offline-safe per C:/Users/user/.claude/
-     rules/html-apps.md).
+  5. No external CDN at runtime (offline-safe per local html-apps rules).
 """
 
 import re

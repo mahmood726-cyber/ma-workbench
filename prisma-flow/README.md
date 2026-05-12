@@ -43,7 +43,7 @@ SVG body.
 ## Tests
 
 ```
-cd "C:\HTML apps\prisma-flow"
+cd prisma-flow
 python -m pytest tests/ -v
 ```
 
@@ -51,7 +51,7 @@ python -m pytest tests/ -v
 - `index.html` exists and parses as HTML
 - Every PRISMA label is in the source
 - Every form input id the script wires up is present
-- No forbidden placeholders (`{{...}}`, `REPLACE_ME`, `TODO:`)
+- No template-marker or replacement-token placeholders
 - No external runtime CDN
 - `prisma-flow-v1` localStorage key is present
 - All export buttons are wired
