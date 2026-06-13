@@ -4,7 +4,7 @@
 [![pages](https://img.shields.io/badge/pages-live-success)](https://mahmood726-cyber.github.io/ma-workbench/)
 [![licence](https://img.shields.io/badge/licence-MIT-informational)](./LICENSE)
 
-**An integrated, browser-native meta-analysis suite.** Fifteen single-file
+**An integrated, browser-native meta-analysis suite.** Eighteen single-file
 HTML tools connected by a shared data bus, with optional in-browser R
 validation against `metafor` and HMAC-signed TruthCert receipts. Every
 push to `main` runs the contract tests, the golden-dataset parity tests,
@@ -21,7 +21,7 @@ Golden validation: `https://mahmood726-cyber.github.io/ma-workbench/golden/READM
 | **Integrator** | MA Workbench (`workbench/`) |
 | **Pre-MA** | PRISMA Screening, PRISMA Flow |
 | **Core MA** | Forest Plot Viewer, Funnel Plot Explorer, Heterogeneity Explorer, Meta-Regression, Cumulative + Subgroup, TSA Calculator, Bayesian MA |
-| **Specialised** | DTA SROC Explorer, RoB Traffic Light |
+| **Specialised** | Network Meta-Analysis, DTA SROC Explorer, RoB Traffic Light |
 | **Reporting** | GRADE SoF Builder |
 | **Validation** | WebR Validator (HMAC-signed receipts) |
 
@@ -92,20 +92,21 @@ python -m pytest tests/
 
 # Per-app smoke tests
 for d in workbench forest-plot funnel-plot heterogeneity tsa meta-regression \
-         cumulative-subgroup bayesian-ma dta-sroc grade-sof prisma-flow \
+         cumulative-subgroup bayesian-ma nma dta-sroc grade-sof prisma-flow \
          prisma-screen rob-traffic-light webr-validator; do
   python -m pytest "$d/tests" -q
 done
 ```
 
-173 tests pass across 15 suites.
+235 tests pass across the root, golden, and per-app suites.
 
 ## Limitations (honest non-goals)
 
 - **Not a replacement for R** for Bayesian NMA with stan, multivariate
   MoM, robust variance estimation, or cluster-correlated effects.
 - Meta-regression supports **one moderator** (not a full design matrix).
-- No network meta-analysis; no individual-patient data pipeline.
+- Network meta-analysis is **contrast-based (frequentist)** only — no
+  Bayesian NMA, and no individual-patient data pipeline.
 - Bayesian MA uses a **conjugate normal-normal** posterior; not a full
   hierarchical model with τ² prior.
 
