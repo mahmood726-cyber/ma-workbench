@@ -98,7 +98,11 @@ for d in workbench forest-plot funnel-plot heterogeneity tsa meta-regression \
 done
 ```
 
-235 tests pass across the root, golden, and per-app suites.
+238 tests pass across the root, golden, and per-app suites. The golden
+suite also runs the **actual shipped pooling JavaScript** (extracted from
+`workbench/index.html`) through the golden datasets via Node
+(`golden/js_parity.mjs`), so a numerical regression in the browser engine
+fails CI — not only the Python reference.
 
 ## Limitations (honest non-goals)
 

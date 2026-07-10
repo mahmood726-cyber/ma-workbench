@@ -77,6 +77,10 @@ def run_simulation(
     dp_levels: list[int],
 ) -> dict[str, PerDpStats | list]:
     """Run the MC and return per-dp stats plus first-10 audit draws."""
+    if n_replications <= 0:
+        raise ValueError("n_replications must be >= 1")
+    if not dp_levels:
+        raise ValueError("dp_levels must be non-empty")
     rng = Xoshiro128SS(seed)
     log_range_lo = math.log(true_hr_range[0])
     log_range_hi = math.log(true_hr_range[1])

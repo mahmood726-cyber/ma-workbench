@@ -38,6 +38,9 @@ jobs:
       - name: Golden-dataset parity (committed references vs fresh recompute)
         run: pytest golden/ -v
 
+      - name: Golden-dataset parity — ACTUAL shipped JS (real workbench engine via Node)
+        run: node golden/js_parity.mjs
+
       - name: Regenerate golden references — must match committed JSON byte-for-byte
         run: |
           python golden/generate_references.py

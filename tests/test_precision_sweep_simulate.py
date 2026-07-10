@@ -1,6 +1,8 @@
 """Correctness + determinism tests for the precision-sweep MC."""
 import math
 
+import pytest
+
 from precision_sweep.simulate import (
     _iv_pool_log,
     _round_trial_at_dp,
@@ -48,6 +50,30 @@ def test_round_trial_at_dp_1_looses_precision():
     se = (math.log(0.90) - math.log(0.69)) / (2 * 1.96)
     log_hr_r, _ = _round_trial_at_dp(0.79, log_hr, se, 1)
     assert abs(log_hr_r - math.log(0.8)) < 1e-10
+
+
+def test_simulation_rejects_zero_replications():
+    """n_replications=0 must fail closed with ValueError, not IndexError."""
+    with pytest.raises(ValueError):
+        run_simulation(
+            seed=1,
+            n_replications=0,
+            true_hr_range=(0.5, 1.5),
+            se_range=(0.05, 0.2),
+            dp_levels=[2],
+        )
+
+
+def test_simulation_rejects_empty_dp_levels():
+    """dp_levels=[] must fail closed with ValueError."""
+    with pytest.raises(ValueError):
+        run_simulation(
+            seed=1,
+            n_replications=10,
+            true_hr_range=(0.5, 1.5),
+            se_range=(0.05, 0.2),
+            dp_levels=[],
+        )
 
 
 def test_simulation_deterministic():
